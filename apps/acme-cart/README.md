@@ -280,3 +280,8 @@ curl --request GET \
 [Pull requests](https://github.com/Azure-Samples/acme-fitness-store/pulls) are welcome. For major changes, please open [an issue](https://github.com/Azure-Samples/acme-fitness-store/issues) first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
+
+
+## License
+
+See the [LICENSE](../../LICENSE) file in the repository
