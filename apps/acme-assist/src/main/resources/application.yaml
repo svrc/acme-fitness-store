@@ -1,4 +1,10 @@
+vectorstore: simple
+
 spring:
+  data:
+    mongodb:
+      uri: <>
+      database: cosmosdb-vector-store
   ai:
     azure:
       openai:

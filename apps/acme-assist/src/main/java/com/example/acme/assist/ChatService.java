@@ -13,7 +13,8 @@ import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;
 import org.springframework.ai.document.Document;
-import org.springframework.ai.vectorstore.SimpleVectorStore;
+import org.springframework.ai.vectorstore.SearchRequest;
+import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -29,7 +30,7 @@ import io.micrometer.common.util.StringUtils;
 public class ChatService {
 
     @Autowired
-    private SimpleVectorStore store;
+    private VectorStore store;
 
     @Autowired
     private ProductRepository productRepository;
@@ -42,6 +43,7 @@ public class ChatService {
 
     @Value("classpath:/prompts/chatWithProductId.st")
     private Resource chatWithProductIdResource;
+
     /**
      * Chat with the OpenAI API. Use the product details as the context.
      *
@@ -67,7 +69,10 @@ public class ChatService {
         String question = chatRequestMessages.get(chatRequestMessages.size() - 1).getContent();
 
         // step 1. Query for documents that are related to the question from the vector store
-        List<Document> candidateDocuments = this.store.similaritySearch(question);
+        SearchRequest request = SearchRequest.query(question).
+                withTopK(5).
+                withSimilarityThreshold(0.4);
+        List<Document> candidateDocuments = this.store.similaritySearch(request);
 
         // step 2. Create a SystemMessage that contains the product information in addition to related documents.
         List<Message> messages = new ArrayList<>();
@@ -90,7 +95,11 @@ public class ChatService {
         String question = acmeChatRequestMessages.get(acmeChatRequestMessages.size() - 1).getContent();
 
         // step 1. Query for documents that are related to the question from the vector store
-        List<Document> relatedDocuments = store.similaritySearch(question);
+        SearchRequest request = SearchRequest.query(question).
+                withTopK(5).
+                withSimilarityThreshold(0.4);
+        List<Document> relatedDocuments = store.similaritySearch(request);
+
 
         // step 2. Create the system message with the related documents;
         List<Message> messages = new ArrayList<>();
