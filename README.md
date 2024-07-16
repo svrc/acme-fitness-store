@@ -75,6 +75,38 @@ applications on CNCF Compliant Kubernetes clusters. Follow the instructions
 in [tanzu-application-platform/README.md](./tanzu-application-platform/README.md)
 to deploy the application to TAP.
 
+## DRAFT Deploy on Tanzu Platform for Cloud Foundry (TPCF aka TAS)
+
+cf create-service p.redis on-demand-cache acme-redis 
+cf create-service postgres on-demand-postgres-db acme-postgres       
+cf create-service p.config-server standard acme-config  -c  '{ "git": { "uri": "https://github.com/svrc/acme-fitness-store-config" }}'
+cf create-service p-identity uaa acme-sso   
+cf create-service p.service-registry standard acme-registry  
+cf create-service p.gateway standard acme-gateway -c '{"sso": { "plan": "uaa", "scopes": ["openid", "profile", "email"] }, "host": "acme-fitness" ,"cors": { "allowed-origins": [ "*" ] }}'
+
+cd acme-identity
+./gradlew asemble
+cf push --no-start
+cf bind-service acme-identity acme-registry cf bind-service acme-identity acme-sso -c ‘ ‘ 
+cf bind-service acme-identity acme-config 
+cf bind-service acme-identity acme-gateway -c identity_routes.json
+cf start acme-identity
+
+cd ../acme-cart
+cf push --no-start
+cf bind-service acme-cart acme-redis
+cf bind-service acme-cart acme-gateway -c cart_routes.json
+cf start acme-cart
+
+cd ../acme-payment
+./gradlew assemble
+cf push --no-start
+cf bind-service acme-payment acme-registry
+cf bind-service acme-payment acme-config
+cf start acme-payment
+
+
+
 
 ## Notes
  If you would like to conduct this workshop in Japanese, please use the [Japanese version](./azure-spring-apps-enterprise/ja-jp/).
