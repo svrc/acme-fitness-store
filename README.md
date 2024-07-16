@@ -75,8 +75,9 @@ applications on CNCF Compliant Kubernetes clusters. Follow the instructions
 in [tanzu-application-platform/README.md](./tanzu-application-platform/README.md)
 to deploy the application to TAP.
 
-## DRAFT Deploy on Tanzu Platform for Cloud Foundry (TPCF aka TAS)
+## DRAFT Deploy on Tanzu Platform for Cloud Foundry (TPCF aka TAS) - incomplete
 
+```
 cf create-service p.redis on-demand-cache acme-redis 
 cf create-service postgres on-demand-postgres-db acme-postgres       
 cf create-service p.config-server standard acme-config  -c  '{ "git": { "uri": "https://github.com/svrc/acme-fitness-store-config" }}'
@@ -104,7 +105,7 @@ cf push --no-start
 cf bind-service acme-payment acme-registry
 cf bind-service acme-payment acme-config
 cf start acme-payment
-
+```
 
 
 
