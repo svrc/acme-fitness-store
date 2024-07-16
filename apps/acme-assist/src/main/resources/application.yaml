@@ -1,22 +1,11 @@
-vectorstore: simple
-spring:
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration
-  data:
-    mongodb:
-      uri: <>
-      database: cosmosdb-vector-store
-  ai:
-    azure:
-      openai:
-        chat:
-          options:
-            deployment-name: gpt-35-turbo-16k
-        embedding:
-          options:
-            deployment-name: text-embedding-ada-002
+
 management:
   endpoints:
     web:
       exposure:
         include: info,health
+spring:
+  application:
+    name: acme-assist
+  autoconfigure:
+    exclude: org.springframework.ai.autoconfigure.vectorstore.pgvector.PgVectorStoreAutoConfiguration
