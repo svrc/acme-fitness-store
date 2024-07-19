@@ -5,6 +5,11 @@ management:
       exposure:
         include: info,health
 spring:
+  ai:
+    openai:
+      chat:
+        options:
+          model: gpt-3.5-turbo
   application:
     name: acme-assist
   autoconfigure:

@@ -1,6 +1,6 @@
 ---
 applications:
-- name: acme-assist
+- name: acme-assist-test #TODO Undo the naming for this before pushing
   memory: 1G
   path: target/acme-assist-0.0.1-SNAPSHOT.jar
   buildpack: java_buildpack_offline

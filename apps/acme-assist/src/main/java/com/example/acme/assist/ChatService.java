@@ -1,15 +1,14 @@
 package com.example.acme.assist;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
+import com.example.acme.assist.model.AcmeChatRequest;
+import com.example.acme.assist.model.Product;
+import io.micrometer.common.util.StringUtils;
 import org.apache.logging.log4j.util.Strings;
-import org.springframework.ai.chat.ChatClient;
-import org.springframework.ai.chat.ChatResponse;
-import org.springframework.ai.chat.messages.ChatMessage;
+import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.messages.Message;
+import org.springframework.ai.chat.messages.MessageType;
+import org.springframework.ai.chat.messages.UserMessage;
+import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;
 import org.springframework.ai.document.Document;
@@ -20,11 +19,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
-import com.azure.ai.openai.models.ChatRole;
-import com.example.acme.assist.model.AcmeChatRequest;
-import com.example.acme.assist.model.Product;
-
-import io.micrometer.common.util.StringUtils;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ChatService {
@@ -118,12 +116,12 @@ public class ChatService {
         // Convert to acme messages types to Spring AI message types
         for (AcmeChatRequest.Message acmeChatRequestMessage : acmeChatRequestMessages) {
             String role = acmeChatRequestMessage.getRole().toString().toUpperCase();
-            messages.add(new ChatMessage(role, acmeChatRequestMessage.getContent()));
+            messages.add(new UserMessage(acmeChatRequestMessage.getContent()));
         }
 
         // Call to OpenAI chat API
         Prompt prompt = new Prompt(messages);
-        ChatResponse aiResponse = this.chatClient.call(prompt);
+        ChatResponse aiResponse = this.chatClient.prompt(prompt).call().chatResponse();
 
         // Process the result and return to client
         List<String> response = processResult(aiResponse);
@@ -159,12 +157,12 @@ public class ChatService {
             throw new IllegalArgumentException("message shouldn't be empty.");
         }
 
-        if (messages.get(0).getRole() != ChatRole.USER) {
+        if (messages.get(0).getRole() != MessageType.USER) {
             throw new IllegalArgumentException("The first message should be in user role.");
         }
 
         var lastUserMessage = messages.get(messages.size() - 1);
-        if (lastUserMessage.getRole() != ChatRole.USER) {
+        if (lastUserMessage.getRole() != MessageType.USER) {
             throw new IllegalArgumentException("The last message should be in user role.");
         }
     }
