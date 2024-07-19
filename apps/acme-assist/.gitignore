@@ -34,3 +34,4 @@ out/
 
 ### VS Code ###
 .vscode/
+/src/test/resources/requests/http-client.private.env.json

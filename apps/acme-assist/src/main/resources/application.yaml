@@ -8,4 +8,8 @@ spring:
   application:
     name: acme-assist
   autoconfigure:
-    exclude: org.springframework.ai.autoconfigure.vectorstore.pgvector.PgVectorStoreAutoConfiguration
+    exclude:
+    - org.springframework.ai.autoconfigure.vectorstore.pgvector.PgVectorStoreAutoConfiguration
+  cloud:
+    config:
+      enabled: false

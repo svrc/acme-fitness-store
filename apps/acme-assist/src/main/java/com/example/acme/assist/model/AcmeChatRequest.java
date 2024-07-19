@@ -1,8 +1,7 @@
 package com.example.acme.assist.model;
 
-import com.azure.ai.openai.models.ChatRole;
-
 import java.util.List;
+import org.springframework.ai.chat.messages.MessageType;
 
 public class AcmeChatRequest {
 
@@ -67,21 +66,21 @@ public class AcmeChatRequest {
 
     public static class Message {
 
-        private ChatRole role;
+        private MessageType role;
 
         private String content;
 
         /**
          * @return the role
          */
-        public ChatRole getRole() {
+        public MessageType getRole() {
             return role;
         }
 
         /**
          * @param role the role to set
          */
-        public void setRole(ChatRole role) {
+        public void setRole(MessageType role) {
             this.role = role;
         }
 
