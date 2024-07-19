@@ -1,0 +1,28 @@
+### GET request to example server
+
+
+POST {{assist-base-url}}/ai/hello
+Content-Type: application/json
+
+{
+  "page": "foobar page",
+  "userId": "foobar userId",
+  "conversationId": "foobar conversationId"
+}
+
+###
+POST {{assist-base-url}}/ai/question
+Content-Type: application/json
+
+{
+  "page": "foobar page",
+  "userId": "foobar userId",
+  "messages": [
+    {
+      "role": "USER",
+      "content": "How long will it take to get the bike delivered to me?"
+    }
+  ]
+}
+
+
