@@ -6,7 +6,7 @@ import com.example.acme.assist.utils.DocumentUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.document.Document;
-import org.springframework.ai.embedding.EmbeddingClient;
+import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.WebApplicationType;
@@ -39,10 +39,10 @@ public class UpdateVectorStoreJob implements CommandLineRunner {
     private String fitAssistAdminUrl;
     private final RestTemplate restTemplate;
     private final ProductRepository productRepository;
-    private final EmbeddingClient embeddingClient;
+    private final EmbeddingModel embeddingModel;
 
-    public UpdateVectorStoreJob(ProductRepository productRepository, EmbeddingClient embeddingClient) {
-        this.embeddingClient = embeddingClient;
+    public UpdateVectorStoreJob(ProductRepository productRepository, EmbeddingModel embeddingModel) {
+        this.embeddingModel = embeddingModel;
         this.restTemplate = new RestTemplate();
         this.productRepository = productRepository;
     }
@@ -61,7 +61,7 @@ public class UpdateVectorStoreJob implements CommandLineRunner {
         for (var productId : productIds) {
             var document = DocumentUtils.createDocument(this.productRepository.getProductById(productId));
             LOGGER.info("Calling EmbeddingClient for document id = {}", document.getId());
-            List<Double> embedding = this.embeddingClient.embed(document);
+            List<Double> embedding = this.embeddingModel.embed(document);
             document.setEmbedding(embedding);
             documents.add(document);
         }
