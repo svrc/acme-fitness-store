@@ -1,14 +1,14 @@
 package com.example.acme.assist.vectorstore;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.reader.JsonMetadataGenerator;
 import org.springframework.ai.reader.JsonReader;
 import org.springframework.core.io.Resource;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class IdAwareJsonReader extends JsonReader {
 
@@ -43,9 +43,9 @@ public class IdAwareJsonReader extends JsonReader {
 
         @Override
         public Map<String, Object> generate(Map<String, Object> jsonMap) {
-            Map<String, Object> result = this.jsonMetadataGenerator.generate(jsonMap);
-            result.put(DEFAULT_ID_KEY, jsonMap.get(this.idKey));
-            return result;
+            Map<String, Object> mutableResult = new HashMap<>(this.jsonMetadataGenerator.generate(jsonMap));
+            mutableResult.put(DEFAULT_ID_KEY, jsonMap.get(this.idKey));
+            return mutableResult;
         }
     }
 

@@ -18,7 +18,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @Configuration
 public class FitAssistConfiguration {
 
-    @Value("classpath:/vector_store.json")
+    @Value("classpath:/vector_store_dimension_1536.json")
     private Resource vectorDbResource;
 
     @Bean
@@ -39,12 +39,9 @@ public class FitAssistConfiguration {
     @Bean
     @ConditionalOnProperty(value = "vectorstore", havingValue = "postgres")
     public VectorStore postgresVectorStore(JdbcTemplate jcbcTemplate, EmbeddingModel embeddingModel) {
-         return new PgVectorStore( jcbcTemplate, embeddingModel,
-            4096,
+         return new PgVectorStore( jcbcTemplate, embeddingModel, 1536,
             PgVectorStore.PgDistanceType.COSINE_DISTANCE,
             false,
             PgVectorStore.PgIndexType.NONE, false);
     }
- 
-    
 }
