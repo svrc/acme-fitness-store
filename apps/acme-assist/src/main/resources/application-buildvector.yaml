@@ -1,0 +1,25 @@
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info,health
+spring:
+  ai:
+    openai:
+      chat:
+        options:
+          model: gpt-3.5-turbo
+      api-key: ${OPENAI_API_KEY}
+  application:
+    name: acme-assist
+  autoconfigure:
+    exclude:
+    - org.springframework.ai.autoconfigure.vectorstore.pgvector.PgVectorStoreAutoConfiguration
+    - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  cloud:
+    config:
+      enabled: false
+    discovery:
+      enabled: false
+vectorstore: simple
