@@ -24,6 +24,6 @@ spring:
   datasource:
     username: root
     password: rootpassword
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://localhost:5433/acme-assist
 
 vectorstore: postgres
