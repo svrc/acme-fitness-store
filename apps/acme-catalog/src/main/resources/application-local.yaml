@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: acme-catalog
+  cloud:
+    config:
+      enabled: false
+  datasource:
+    username: root
+    password: rootpassword
+    url: jdbc:postgresql://localhost:5432/acme-catalog
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    encoding: UTF-8
+eureka:
+  client:
+    enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info,health
+

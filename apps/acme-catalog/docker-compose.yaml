@@ -6,6 +6,6 @@ services:
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: rootpassword
-      POSTGRES_DB: acmefit
+      POSTGRES_DB: acme-catalog
     ports:
       - "5432:5432"
