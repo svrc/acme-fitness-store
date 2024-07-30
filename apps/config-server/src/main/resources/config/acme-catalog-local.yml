@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: "acme-catalog"
+  mvc:
+    static-path-pattern: /static/images/**
+  web:
+    resources:
+      cache:
+        cachecontrol:
+          max-age: 3600
+          cache-public: true
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    username: root
+    password: rootpassword
+    url: jdbc:postgresql://localhost:5432/acme-catalog
