@@ -4,6 +4,7 @@ __pycache__
 .idea
 .metadata
 custom-filters
+*.iml
 
 
 azure-spring-apps-enterprise/scripts/setup-env-variables.sh
