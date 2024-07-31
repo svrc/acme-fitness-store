@@ -1,0 +1,23 @@
+server:
+  port: 8083
+
+logging.level:
+  org.springframework.data: warn
+
+spring:
+  application:
+    name: 'acme-identity'
+  mvc:
+    static-path-pattern: /static/images/**
+  web:
+    resources:
+      cache:
+        cachecontrol:
+          max-age: 3600
+          cache-public: true
+  config:
+    activate:
+      on-profile: local
+eureka:
+  client:
+    enabled: true
