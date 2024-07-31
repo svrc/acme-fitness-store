@@ -3,6 +3,11 @@ server:
   port: 8888
 
 # Point the config server at the git repo containing the configuration settings
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info,health
 spring:
   profiles:
     include:
