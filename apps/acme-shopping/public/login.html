@@ -13,6 +13,7 @@
         </div>
     </div>
 </div>
+<script src="js/config.js"></script>
 <script src="js/client.js"></script>
 <script src="js/jwt-decode.min.js"></script>
 <script>
@@ -23,7 +24,7 @@
         });
 
         $('#login').click(function () {
-            location.href = '/acme-login'
+            location.href = `${config.env.SERVER_URL}/acme-login`
         });
 
         getUserInfo(function ({userId, userName}) {
