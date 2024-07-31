@@ -1,6 +1,6 @@
 const CONTEXT_MESSAGE_COUNT = 5;
-const API_HELLO_URL = '/ai/hello';
-const API_QUESTION_URL = '/ai/question';
+const API_HELLO_URL = `${config.env.SERVER_URL}/ai/hello`;
+const API_QUESTION_URL = `${config.env.SERVER_URL}/ai/question`;
 const API_HEADER = {
   "Content-Type": "application/json"
 };
@@ -72,7 +72,7 @@ async function sendMessage() {
     const response = await fetch(API_QUESTION_URL, {
       method: 'POST',
       headers: API_HEADER ?? {},
-      body: JSON.stringify({ messages: context, productId })
+      body: JSON.stringify({ messages: context, productId }),
     });
     const data = await response.json();
   

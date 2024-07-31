@@ -4,7 +4,7 @@ function getUserInfo(handleUserInfo) {
     console.log('Requesting user details from backend');
 
     $.ajax({
-        url: "/userinfo",
+        url: `${config.env.SERVER_URL}/userinfo`,
         type: 'GET',
         success: function (json) {
             if (json) {
@@ -33,7 +33,7 @@ function deleteItem(itemid, userid) {
     }
 
     $.ajax({
-        url: "/cart/item/modify/" + userid,
+        url: `${config.env.SERVER_URL}/cart/item/modify/${userid}`,
         type: "POST",
         data: JSON.stringify(vals),
         success: function(data, textStatus, jqXHR) {
@@ -62,7 +62,7 @@ function updateCart(itemid, quantity, userid) {
 
     $.ajax({
 
-        url: "/cart/item/modify/" + userid,
+        url: `${config.env.SERVER_URL}/cart/item/modify/${userid}`,
         type: "POST",
         data: JSON.stringify(vals),
         success: function(data, textStatus, jqXHR) {
@@ -87,7 +87,7 @@ function getCartTotal(userid) {
     var cartTotal = 0
     $.ajax({
 
-        url: "/cart/total/" + userid,
+        url: `${config.env.SERVER_URL}/cart/total/${userid}`,
         type: "GET",
         async: false,
         success: function(body, textStatus, jqXHR) {
@@ -121,7 +121,7 @@ function getImageUrl(productId, setUrl) {
 
     var imageurl = ''
     $.ajax({
-        url: "/products/" + productId,
+        url: `${config.env.SERVER_URL}/products/${productId}`,
         type: 'GET',
         async: false,
         success: function (body, textStatus, jqXHR) {
