@@ -23,6 +23,7 @@ nupkg/
 
 # Rider
 .idea
+*.iml
 
 # User-specific files
 *.suo
