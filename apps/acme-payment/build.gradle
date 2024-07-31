@@ -35,6 +35,9 @@ dependencies {
         implementation group: 'io.pivotal.cfenv', name: 'java-cfenv-boot-pivotal-sso', version: '3.1.5'
         implementation 'org.springframework.credhub:spring-credhub-starter:3.1.0'
 
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
 	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
