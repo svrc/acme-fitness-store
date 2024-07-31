@@ -1,6 +1,6 @@
 spring:
   application:
-    name: acme-catalog
+    name: acme-payment
   cloud:
     config:
       enabled: true
