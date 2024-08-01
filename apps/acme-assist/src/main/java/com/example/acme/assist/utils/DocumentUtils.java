@@ -1,14 +1,13 @@
 package com.example.acme.assist.utils;
 
 import com.example.acme.assist.model.Product;
+import lombok.NoArgsConstructor;
 import org.springframework.ai.document.Document;
 
 import java.util.Map;
 
+@NoArgsConstructor
 public class DocumentUtils {
-
-    private DocumentUtils() {
-    }
 
     public static Document createDocument(Product product) {
         StringBuilder sb = new StringBuilder();

@@ -1,6 +1,6 @@
 package com.example.acme.assist;
 
-import com.example.acme.assist.model.AcmeChatRequest;
+import com.example.acme.assist.model.AcmeChatMessage;
 import com.example.acme.assist.model.Product;
 import io.micrometer.common.util.StringUtils;
 import org.apache.logging.log4j.util.Strings;
@@ -48,7 +48,7 @@ public class ChatService {
      * @param chatRequestMessages the chat messages
      * @return the chat response
      */
-    public List<String> chat(List<AcmeChatRequest.Message> chatRequestMessages, String productId) {
+    public List<String> chat(List<AcmeChatMessage> chatRequestMessages, String productId) {
 
         validateMessage(chatRequestMessages);
 
@@ -62,7 +62,7 @@ public class ChatService {
         }
     }
 
-    private List<String> chatWithProductId(Product product, List<AcmeChatRequest.Message> chatRequestMessages) {
+    private List<String> chatWithProductId(Product product, List<AcmeChatMessage> chatRequestMessages) {
         // We have a specific Product
         String question = chatRequestMessages.get(chatRequestMessages.size() - 1).getContent();
 
@@ -88,7 +88,7 @@ public class ChatService {
      * @param acmeChatRequestMessages the chat messages, including previous messages sent by the client
      * @return the chat response
      */
-    protected List<String> chatWithoutProductId(List<AcmeChatRequest.Message> acmeChatRequestMessages) {
+    protected List<String> chatWithoutProductId(List<AcmeChatMessage> acmeChatRequestMessages) {
 
         String question = acmeChatRequestMessages.get(acmeChatRequestMessages.size() - 1).getContent();
 
@@ -112,9 +112,9 @@ public class ChatService {
         return addUserMessagesAndSendToAI(acmeChatRequestMessages, messages);
     }
 
-    private List<String> addUserMessagesAndSendToAI(List<AcmeChatRequest.Message> acmeChatRequestMessages, List<Message> messages) {
+    private List<String> addUserMessagesAndSendToAI(List<AcmeChatMessage> acmeChatRequestMessages, List<Message> messages) {
         // Convert to acme messages types to Spring AI message types
-        for (AcmeChatRequest.Message acmeChatRequestMessage : acmeChatRequestMessages) {
+        for (AcmeChatMessage acmeChatRequestMessage : acmeChatRequestMessages) {
             String role = acmeChatRequestMessage.getRole().toString().toUpperCase();
             messages.add(new UserMessage(acmeChatRequestMessage.getContent()));
         }
@@ -152,16 +152,16 @@ public class ChatService {
         return response;
     }
 
-    private static void validateMessage(List<AcmeChatRequest.Message> messages) {
-        if (messages == null || messages.isEmpty()) {
+    private static void validateMessage(List<AcmeChatMessage> acmeChatMessages) {
+        if (acmeChatMessages == null || acmeChatMessages.isEmpty()) {
             throw new IllegalArgumentException("message shouldn't be empty.");
         }
 
-        if (messages.get(0).getRole() != MessageType.USER) {
+        if (acmeChatMessages.get(0).getRole() != MessageType.USER) {
             throw new IllegalArgumentException("The first message should be in user role.");
         }
 
-        var lastUserMessage = messages.get(messages.size() - 1);
+        var lastUserMessage = acmeChatMessages.get(acmeChatMessages.size() - 1);
         if (lastUserMessage.getRole() != MessageType.USER) {
             throw new IllegalArgumentException("The last message should be in user role.");
         }
