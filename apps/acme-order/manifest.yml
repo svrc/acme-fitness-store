@@ -1,0 +1,7 @@
+---
+applications:
+  - name: acme-order
+    memory: 200M
+    path: bin/Release/net8.0/linux-x64/publish/
+    buildpacks: 
+      - dotnet_core_buildpack

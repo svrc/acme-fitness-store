@@ -51,3 +51,4 @@ msbuild.wrn
 .vs/
 
 publish/
+/http-client.private.env.json

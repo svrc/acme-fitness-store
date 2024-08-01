@@ -10,22 +10,22 @@ metadata:
     apps.tanzu.vmware.com/auto-configure-actuators: "true"
 spec:
   env:
-  - name: AcmeServiceSettings__AuthUrl
-    value: http://acme-fitness.perfect300rock.com
-  - name: PAYMENT_SERVICE_SERVICE_HOST
-    value: acme-payment
+    - name: AcmeServiceSettings__AuthUrl
+      value: http://acme-fitness.perfect300rock.com
+    - name: PAYMENT_SERVICE_SERVICE_HOST
+      value: acme-payment
   params:
-  - name: annotations
-    value:
-      autoscaling.knative.dev/minScale: "1"
-  - name: testing_pipeline_matching_labels
-    value:
-        apps.tanzu.vmware.com/pipeline: acme-fitness-generic-test   
-  - name: ports
-    value:
-    - port: 80
-      containerPort: 8080
-      name: http
+    - name: annotations
+      value:
+        autoscaling.knative.dev/minScale: "1"
+    - name: testing_pipeline_matching_labels
+      value:
+        apps.tanzu.vmware.com/pipeline: acme-fitness-generic-test
+    - name: ports
+      value:
+        - port: 80
+          containerPort: 8080
+          name: http
   source:
     subPath: apps/acme-cart
     git:
