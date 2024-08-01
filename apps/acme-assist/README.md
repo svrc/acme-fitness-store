@@ -1,3 +1,4 @@
+==========================TO BE DELETED
 # Enhance with Azure OpenAI
 
 ## Prerequisites
@@ -50,6 +51,11 @@
       --capacity 120
    ```
 
+======================================= TO be deleted
+
+## Local running
+
+Ensure the Local Development depedency is setup running (ie. local config server)
 
 ## (Optional) Preprocess the data into the vector store
 
