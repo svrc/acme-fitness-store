@@ -80,7 +80,8 @@ to deploy the application to TAP.
 ```
 cf create-service p.redis on-demand-cache acme-redis 
 cf create-service postgres on-demand-postgres-db acme-postgres
-cf create-service postgres on-demand-postgres-db acme-assist-postgres       
+cf create-service postgres on-demand-postgres-db acme-assist-postgres
+cf create-service postgres on-demand-postgres-db acme-order-postgres       
 cf create-service p.config-server standard acme-config  -c  '{ "git": { "uri": "https://github.com/svrc/acme-fitness-store-config" }}'
 cf create-service p-identity uaa acme-sso   
 cf create-service p.service-registry standard acme-registry  
@@ -133,7 +134,6 @@ dotnet publish -r linux-x64
 cf push --no-start
 cf bind-service acme-order acme-order-postgres
 cf bind-service acme-order acme-gateway -c order-routes.json
-
 cf start acme-order
 
 cd ../acme-shopping
@@ -155,12 +155,13 @@ cd local-development
 ```
 ### Local Development Ports
 ```
-localhost:5000 - acme-orders / acme-cart TODO-Change ports
+localhost:5000 - acme-cart TODO-Change ports
 localhost:8080 - acme-shopping - Frontend
 localhost:8081 - acme-assist - SpringBoot - AI integtegration
 localhost:8082 - acme-catalog - SpringBoot - CrudRepository
 localhost:8083 - acme-identity - SpringBoot - Token Resource server
 localhost:8084 - acme-payment - SpringBoot -  ???
+localhost:8086 - acme-order - DotNet application
 localhost:8090 - spring-cloud-gateway 
 localhost:8888 - spring local config server 
 localhost:9000 - spring local authorization 
