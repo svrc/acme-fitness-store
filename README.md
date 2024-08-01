@@ -106,8 +106,15 @@ cf bind-service acme-payment acme-registry
 cf bind-service acme-payment acme-config
 cf start acme-payment
 ```
+## Local Development setup
+
+### Config server
+Config in TAS is created by a Repo backed tile. Locally instead will be spring boot config server run locally on port 8888.
+```bash
+cd local-development
 
 
+```
 
 ## Notes
  If you would like to conduct this workshop in Japanese, please use the [Japanese version](./azure-spring-apps-enterprise/ja-jp/).
