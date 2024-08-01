@@ -198,7 +198,7 @@
 
       $.ajax({
 
-        url: `${config.env.SERVER_URL}/cart/items/${userid}`,
+        url: `${config.env.serverUrl}/cart/items/${userid}`,
         type: "GET",
         success: function (body, textStatus, jqXHR) {
           console.log("status cart is " + jqXHR.status)

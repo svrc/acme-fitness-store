@@ -287,7 +287,7 @@
         // Use this logic to GET stuff and dynamically display
         $.ajax({
 
-          url: "/products",
+          url: `${config.env.serverUrl}/products`,
           type: "GET",
           success: function(data, textStatus, jqXHR) {
 

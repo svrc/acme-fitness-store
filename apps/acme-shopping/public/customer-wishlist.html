@@ -421,6 +421,7 @@
     <script src="vendor/jquery.cookie/jquery.cookie.js"> </script>
     <script src="vendor/owl.carousel/owl.carousel.min.js"></script>
     <!-- main script-->
+    <script src="js/config.js"> </script>
     <script src="js/front.js"> </script>
     <script>
       $(document).ready(function() {
@@ -439,7 +440,7 @@
         // Use this logic to GET stuff and dynamically display
         $.ajax({
 
-          url: "/products",
+          url: `${config.env.serverUrl}/products`,
           type: "GET",
           success: function(data, textStatus, jqXHR) {
 
