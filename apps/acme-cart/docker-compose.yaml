@@ -2,7 +2,7 @@ version: '2'
 
 services:
   cart:
-    image: acmeshop-cart:latest
+    image: acme-cart:latest
     hostname: cart
     restart: always
     ports:

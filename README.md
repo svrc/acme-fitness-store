@@ -79,11 +79,13 @@ to deploy the application to TAP.
 
 ```
 cf create-service p.redis on-demand-cache acme-redis 
-cf create-service postgres on-demand-postgres-db acme-postgres       
+cf create-service postgres on-demand-postgres-db acme-postgres
+cf create-service postgres on-demand-postgres-db acme-assist-postgres       
 cf create-service p.config-server standard acme-config  -c  '{ "git": { "uri": "https://github.com/svrc/acme-fitness-store-config" }}'
 cf create-service p-identity uaa acme-sso   
 cf create-service p.service-registry standard acme-registry  
 cf create-service p.gateway standard acme-gateway -c '{"sso": { "plan": "uaa", "scopes": ["openid", "profile", "email"] }, "host": "acme-fitness" ,"cors": { "allowed-origins": [ "*" ] }}'
+cf create-service genai shared genai
 
 cd acme-identity
 ./gradlew asemble
@@ -105,6 +107,14 @@ cf push --no-start
 cf bind-service acme-payment acme-registry
 cf bind-service acme-payment acme-config
 cf start acme-payment
+
+cd ../acme-assist
+./mvnw clean package
+cf push --no-start
+cf bind-service acme-assist acme-registry
+cf bind-service acme-assist acme-assist-postgres
+cf bind-service acme-assist genai 
+cf start acme-assist
 ```
 ## Local Development setup
 
@@ -112,8 +122,7 @@ cf start acme-payment
 Config in TAS is created by a Repo backed tile. Locally instead will be spring boot config server run locally on port 8888.
 ```bash
 cd local-development
-
-
+ ./mvnw -e spring-boot:run -Dspring-boot.run.profiles=local
 ```
 
 ## Notes
