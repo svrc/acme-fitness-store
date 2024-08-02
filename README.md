@@ -125,6 +125,14 @@ cd local-development
  ./mvnw -e spring-boot:run -Dspring-boot.run.profiles=local
 ```
 
+## TAS Development Tricks
+
+### Connecting to Database
+
+https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-services.html
+
+`cf ssh -L 65432:{host-of-database-on-TAS}:5432 {application-name}`
+
 ## Notes
  If you would like to conduct this workshop in Japanese, please use the [Japanese version](./azure-spring-apps-enterprise/ja-jp/).
  
