@@ -13,49 +13,20 @@
 1. Run `cp azure-spring-apps-enterprise/scripts/setup-env-variables-template.sh azure-spring-apps-enterprise/scripts/setup-env-variables.sh` and update the values in `setup-env-variables.sh` with your own values.
 1. Run `cp azure-spring-apps-enterprise/scripts/setup-ai-env-variables-template.sh azure-spring-apps-enterprise/scripts/setup-ai-env-variables.sh` and update the values in `setup-ai-env-variables.sh` with your own values.
 
-
-## Prepare Azure OpenAI Service
-
-1. Run the following command to create an Azure OpenAI resource in the the resource group.
-
-   ```bash
-   source ./azure-spring-apps-enterprise/scripts/setup-env-variables.sh
-   export OPENAI_RESOURCE_NAME=<choose-a-resource-name>
-   az cognitiveservices account create \
-      -n ${OPENAI_RESOURCE_NAME} \
-      -g ${RESOURCE_GROUP} \
-      -l eastus \
-      --kind OpenAI \
-      --sku s0 \
-      --custom-domain ${OPENAI_RESOURCE_NAME}   
-   ```
-
-1. Create the model deployments for `text-embedding-ada-002` and `gpt-35-turbo-16k` in your Azure OpenAI service.
-   ```bash
-   az cognitiveservices account deployment create \
-      -g ${RESOURCE_GROUP} \
-      -n ${OPENAI_RESOURCE_NAME} \
-      --deployment-name text-embedding-ada-002 \
-      --model-name text-embedding-ada-002 \
-      --model-version "2"  \
-      --model-format OpenAI
-
-    az cognitiveservices account deployment create \
-      -g ${RESOURCE_GROUP} \
-      -n ${OPENAI_RESOURCE_NAME} \
-      --deployment-name gpt-35-turbo-16k \
-      --model-name gpt-35-turbo-16k \
-      --model-version "0613"  \
-      --model-format OpenAI \
-      --sku Standard \
-      --capacity 120
-   ```
-
 ======================================= TO be deleted
 
 ## Local running
 
-Ensure the Local Development depedency is setup running (ie. local config server)
+Ensure the Local Development dependency is setup running (ie. local config server)
+
+This application also assumes there is an OPEN AI API key setup as an environment variable. 
+Need to set `OPENAI_API_KEY` for the application-local.yml
+
+run locally setting up docker for dependency
+```bash
+docker-compose up
+./mvnw -e spring-boot:run -Dspring-boot.run.profiles=local
+```
 
 ## (Optional) Preprocess the data into the vector store
 
@@ -65,37 +36,3 @@ source ./azure-spring-apps-enterprise/scripts/setup-ai-env-variables.sh
 cd apps/acme-assist
 ./preprocess.sh data/bikes.json,data/accessories.json src/main/resources/vector_store.json
 ```
-
-
-## Build and deploy to Azure Spring Apps
-
-1. Prepare the new sample data and images:
-   ```bash
-   ./apps/acme-assist/prepare_data.sh
-   ```
-1. Redeploy `catalog-service` with the new resources:
-    ```bash
-    source ./azure-spring-apps-enterprise/scripts/setup-env-variables.sh
-    az spring app deploy --name ${CATALOG_SERVICE_APP} \
-    --config-file-pattern catalog/default \
-    --source-path apps/acme-catalog \
-    --build-env BP_JVM_VERSION=17
-    ```
-1. Deploy the new ai service `assist-service` :
-    ```bash
-    source ./azure-spring-apps-enterprise/scripts/setup-ai-env-variables.sh
-    az spring app create --name ${AI_APP} --instance-count 1 --memory 1Gi
-    az spring gateway route-config create \
-        --name ${AI_APP} \
-        --app-name ${AI_APP} \
-        --routes-file azure-spring-apps-enterprise/resources/json/routes/assist-service.json
-    
-    az spring app deploy --name ${AI_APP} \
-        --source-path apps/acme-assist \
-        --build-env BP_JVM_VERSION=17 \
-        --env \
-            SPRING_AI_AZURE_OPENAI_ENDPOINT=${SPRING_AI_AZURE_OPENAI_ENDPOINT} \
-            SPRING_AI_AZURE_OPENAI_API_KEY=${SPRING_AI_AZURE_OPENAI_API_KEY} \
-            SPRING_AI_AZURE_OPENAI_MODEL=${SPRING_AI_AZURE_OPENAI_MODEL} \
-            SPRING_AI_AZURE_OPENAI_EMBEDDINGMODEL=${SPRING_AI_AZURE_OPENAI_EMBEDDINGMODEL}
-    ```
