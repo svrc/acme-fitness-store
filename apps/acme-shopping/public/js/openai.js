@@ -1,6 +1,6 @@
 const CONTEXT_MESSAGE_COUNT = 5;
-const API_HELLO_URL = `${config.env.serverUrl}/ai/hello`;
-const API_QUESTION_URL = `${config.env.serverUrl}/ai/question`;
+const API_HELLO_URL = `/ai/hello`;
+const API_QUESTION_URL = `/ai/question`;
 const API_HEADER = {
   "Content-Type": "application/json"
 };

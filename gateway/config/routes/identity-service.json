@@ -1,4 +1,4 @@
-[
+{ "routes": [
   {
     "order": 0,
     "ssoEnabled": true,
@@ -54,3 +54,4 @@
     ]
   }
 ]
+}

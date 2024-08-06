@@ -100,7 +100,7 @@
 <script src="vendor/jquery.cookie/jquery.cookie.js"></script>
 <script src="vendor/owl.carousel/owl.carousel.min.js"></script>
 <!-- main script-->
-<script src="js/config.js"></script>
+
 <script src="js/front.js"></script>
 <script src="js/client.js"></script>
 <script src="js/jwt-decode.min.js"></script>
@@ -130,7 +130,7 @@
 
         $.ajax({
 
-            url: `${config.env.serverUrl}/cart/clear/${userid}`,
+            url: `/cart/clear/${userid}`,
             type: "GET",
             success: function (body, textStatus, jqXHR) {
 
