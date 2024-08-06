@@ -115,6 +115,14 @@ cf bind-service acme-assist acme-registry
 cf bind-service acme-assist acme-assist-postgres
 cf bind-service acme-assist genai 
 cf start acme-assist
+
+cd ../acme-catalog
+./gradlew clean assemble
+cf push --no-start
+cf bind-service acme-catalog acme-registry
+cf bind-service acme-catalog acme-config
+cf bind-service acme-catalog acme-postgres
+cf start acme-catalog
 ```
 ## Local Development setup
 
