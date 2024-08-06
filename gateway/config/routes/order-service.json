@@ -1,4 +1,4 @@
-[
+{ "routes": [
   {
     "ssoEnabled": true,
     "tokenRelay": true,
@@ -32,3 +32,4 @@
     ]
   }
 ]
+}

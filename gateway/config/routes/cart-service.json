@@ -1,4 +1,5 @@
-[
+{
+  "routes": [
   {
     "predicates": [
       "Path=/cart/item/add/{userId}",
@@ -70,3 +71,4 @@
     "tokenRelay": true
   }
 ]
+}

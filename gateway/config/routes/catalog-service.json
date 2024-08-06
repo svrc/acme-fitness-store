@@ -1,4 +1,4 @@
-[
+{ "routes": [
   {
     "predicates": [
       "Path=/products",
@@ -73,3 +73,4 @@
     ]
   }
 ]
+}

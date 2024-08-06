@@ -92,13 +92,13 @@ cd acme-identity
 cf push --no-start
 cf bind-service acme-identity acme-registry cf bind-service acme-identity acme-sso -c ‘ ‘ 
 cf bind-service acme-identity acme-config 
-cf bind-service acme-identity acme-gateway -c identity_routes.json
+cf bind-service acme-identity acme-gateway -c ../../gateway/config/identity-service.json
 cf start acme-identity
 
 cd ../acme-cart
 cf push --no-start
 cf bind-service acme-cart acme-redis
-cf bind-service acme-cart acme-gateway -c cart_routes.json
+cf bind-service acme-cart acme-gateway -c ../../gateway/config/cart_routes.json
 cf start acme-cart
 
 cd ../acme-payment
@@ -114,6 +114,8 @@ cf push --no-start
 cf bind-service acme-assist acme-registry
 cf bind-service acme-assist acme-assist-postgres
 cf bind-service acme-assist genai 
+cf bind-service acme-cart acme-gateway -c ../../gateway/config/assist-service.json
+
 cf start acme-assist
 
 cd ../acme-catalog
@@ -122,8 +124,13 @@ cf push --no-start
 cf bind-service acme-catalog acme-registry
 cf bind-service acme-catalog acme-config
 cf bind-service acme-catalog acme-postgres
+cf bind-service acme-cart acme-gateway -c ../../gateway/config/catalog-service.json
 cf start acme-catalog
 ```
+
+Note: ensure that the environment variable for TAS has 
+`SPRING_MVC_STATIC_PATH_PATTERN: /static/images/**` set.  Currently have an issue with the value taken from config server being overwritten.
+
 ## Local Development setup
 
 ### Config server
