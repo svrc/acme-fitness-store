@@ -25,4 +25,4 @@ spring:
       on-profile: local
 eureka:
   client:
-    enabled: true
+    enabled: false
