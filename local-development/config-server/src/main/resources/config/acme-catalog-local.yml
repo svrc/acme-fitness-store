@@ -18,4 +18,7 @@ spring:
   datasource:
     username: root
     password: rootpassword
-    url: jdbc:postgresql://localhost:5432/acme-catalog
+    url: jdbc:postgresql://localhost:5434/acme-catalog
+eureka:
+  client:
+    enabled: false

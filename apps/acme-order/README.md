@@ -13,11 +13,11 @@ Start the mongodb container:
 Start the application:
 
 ```bash
-    dotnet run
+    dotnet run --urls=http://localhost:8086/
 ```
 
 Verify the health of the application:
 
 ```bash
-    open localhost:5000/actuator/health
+    open localhost:8086/actuator/health
 ```
