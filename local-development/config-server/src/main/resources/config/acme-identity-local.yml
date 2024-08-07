@@ -7,6 +7,11 @@ logging.level:
 spring:
   application:
     name: 'acme-identity'
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: "http://localhost:9000"
   mvc:
     static-path-pattern: /static/images/**
   web:

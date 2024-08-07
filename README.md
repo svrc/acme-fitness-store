@@ -90,7 +90,8 @@ cf create-service genai shared genai
 cd acme-identity
 ./gradlew asemble
 cf push --no-start
-cf bind-service acme-identity acme-registry cf bind-service acme-identity acme-sso -c ‘ ‘ 
+cf bind-service acme-identity acme-registry
+cf bind-service acme-identity acme-sso -c ‘ ‘ 
 cf bind-service acme-identity acme-config 
 cf bind-service acme-identity acme-gateway -c ../../gateway/config/identity-service.json
 cf start acme-identity
