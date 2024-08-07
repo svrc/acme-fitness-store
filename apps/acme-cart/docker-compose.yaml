@@ -6,7 +6,7 @@ services:
     hostname: cart
     restart: always
     ports:
-      - '5000:5000'
+      - '8085:5000'
     cap_drop:
       - all
     cap_add:

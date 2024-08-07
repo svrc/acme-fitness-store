@@ -5,6 +5,129 @@ spring:
   cloud:
     gateway:
       routes:
+        # ####################################################
+        # acme-assist
+        # ####################################################
+        - uri: http://localhost:8081
+          predicates:
+            - Path=/ai/*
+            - Method=POST
+          filters:
+            - StripPrefix=0
+          tags:
+            - assist-service
+        - uri: http://localhost:8081
+          predicates:
+            - Path=/ai/admin/*
+            - Method=GET
+          filters:
+            - StripPrefix=0
+          tags:
+            - assist-service
+
+        # ####################################################
+        # acme-cart
+        # ####################################################
+        - uri: http://localhost:8085
+          predicates:
+            - Path=/cart/item/add/{userId}
+            - Method=POST
+          filters:
+            - StripPrefix=0
+            - TokenRelay
+          tags:
+            - cart
+          ssoEnabled: true
+        - uri: http://localhost:8085
+          predicates:
+            - Path=/cart/item/modify/{userId}
+            - Method=POST
+          filters:
+            - StripPrefix=0
+            - TokenRelay
+          tags:
+            - cart
+          ssoEnabled: true
+        - uri: http://localhost:8085
+          predicates:
+            - Path=/cart/items/{userId}
+            - Method=GET
+          filters:
+            - StripPrefix=0
+            - TokenRelay
+          tags:
+            - cart
+          ssoEnabled: true
+        - uri: http://localhost:8085
+          predicates:
+            - Path=/cart/clear/{userId}
+            - Method=GET
+          filters:
+            - StripPrefix=0
+            - TokenRelay
+          tags:
+            - cart
+          ssoEnabled: true
+        - uri: http://localhost:8085
+          predicates:
+            - Path=/cart/total/{userId}
+            - Method=GET
+          filters:
+            - StripPrefix=0
+            - TokenRelay
+          tags:
+            - cart
+          ssoEnabled: true
+
+        # ####################################################
+        # acme-catalog
+        # ####################################################
+        - title: products-route
+          description: /products endpoint
+          uri: http://localhost:8082
+          predicates:
+           - Path=/products
+           - Method=GET
+          filters:
+           - StripPrefix=0
+           - RateLimit=2,5s
+          tags:
+           - catalog
+        - title: products-id-route
+          description: /products/id endpoint
+          uri: http://localhost:8082
+          predicates:
+           - Path=/products/{id}
+           - Method=GET
+          filters:
+           - StripPrefix=0
+          tags:
+           - catalog
+        - title: catalogliveness-route
+          description: /products/id endpoint
+          uri: http://localhost:8082
+          predicates:
+           - Path=/catalogliveness
+           - Method=GET
+          filters:
+           - StripPrefix=0
+           - SetPath=/actuator/health/liveness
+          tags:
+           - catalog
+        - title: catalogliveness-route
+          description: /products/id endpoint
+          uri: http://localhost:8082
+          predicates:
+           - Path=/static/images/{id}
+           - Method=GET
+          filters:
+           - StripPrefix=0
+          tags:
+           - catalog
+
+        # ####################################################
+        # acme-identity
+        # ####################################################
         - order: 0
           ssoEnabled: true
           uri: http://localhost:8083
@@ -36,6 +159,66 @@ spring:
         - uri: http://localhost:8083
           predicates:
             - Path=/whoami
+            - Method=GET
+          filters:
+            - StripPrefix=0
+            - TokenRelay
+            - SsoLogin
+          tags:
+            - users
+
+        # ####################################################
+        # acme-order
+        # ####################################################
+        - uri: http://localhost:8086
+          ssoEnabled: true
+          title: Create an order.
+          description: Creates an order for the user.
+          predicates:
+            - Path=/order/add/{userId}
+            - Method=POST
+          filters:
+            - StripPrefix=0
+            - TokenRelay
+          tags:
+            - order
+        - uri: http://localhost:8086
+          ssoEnabled: true
+          title: Retrieve User's Orders.
+          description: Lookup all orders for the given user
+          predicates:
+            - Path=/order/{userId}
+            - Method=GET
+          filters:
+            - StripPrefix=0
+            - TokenRelay
+          tags:
+            - order
+
+        # ####################################################
+        # acme-payment
+        # ####################################################
+        - uri: http://localhost:8084
+          ssoEnabled: true
+          description: /pay endpoint
+          predicates:
+            - Path=/pay
+            - Method=POST
+          filters:
+            - StripPrefix=0
+            - TokenRelay
+          tags:
+            - payment
+
+        # ####################################################
+        # acme-shopping (frontend)
+        # ####################################################
+        - order: 999
+          ssoEnabled:
+            true
+          uri: http://localhost:8080
+          predicates:
+            - Path=/**
             - Method=GET
           filters:
             - StripPrefix=0

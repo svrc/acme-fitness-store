@@ -11,7 +11,7 @@ let CURRENT_CONVERSATION_ID = null;
 function addMessage(message, senderIsAI) {
   MESSAGE_HISTORY.push({
     content: message,
-    role: senderIsAI ? 'assistant' : 'user'
+    role: senderIsAI ? 'ASSISTANT' : 'USER'
   });
   localStorage[CURRENT_CONVERSATION_ID] = JSON.stringify(MESSAGE_HISTORY);
 
@@ -55,7 +55,7 @@ async function sendMessage() {
 
   const findUserRoleMessageIndexes = [];
   MESSAGE_HISTORY.forEach((message, index) => {
-    if (message.role === 'user') {
+    if (message.role === 'USER') {
       findUserRoleMessageIndexes.push(index);
     }
   });
@@ -105,7 +105,7 @@ function clearCurrentConversation() {
 function restoreConversation(conversationId) {
   CURRENT_CONVERSATION_ID = conversationId;
   MESSAGE_HISTORY = JSON.parse(localStorage[CURRENT_CONVERSATION_ID]);
-  MESSAGE_HISTORY.forEach(item => renderMessage(item.content, item.role === 'assistant'));
+  MESSAGE_HISTORY.forEach(item => renderMessage(item.content, item.role === 'ASSISTANT'));
 }
 
 async function createNewConversation() {
