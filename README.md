@@ -127,6 +127,12 @@ cf bind-service acme-catalog acme-config
 cf bind-service acme-catalog acme-postgres
 cf bind-service acme-cart acme-gateway -c ../../gateway/config/catalog-service.json
 cf start acme-catalog
+
+
+cd ../acme-shopping
+cf push --no-start
+cf bind-service-acme-shopping acme-gateway - c ../../gateway/config/frontend.json
+cf start acme-shopping
 ```
 
 Note: ensure that the environment variable for TAS has 
@@ -140,6 +146,19 @@ Config in TAS is created by a Repo backed tile. Locally instead will be spring b
 cd local-development
  ./mvnw -e spring-boot:run -Dspring-boot.run.profiles=local
 ```
+### Local Development Ports
+```
+localhost:5000 - acme-orders / acme-cart TODO-Change ports
+localhost:8080 - acme-shopping - Frontend
+localhost:8081 - acme-assist - SpringBoot - AI integtegration
+localhost:8082 - acme-catalog - SpringBoot - CrudRepository
+localhost:8083 - acme-identity - SpringBoot - Token Resource server
+localhost:8084 - acme-payment - SpringBoot -  ???
+localhost:8090 - spring-cloud-gateway 
+localhost:8888 - spring local config server 
+localhost:9000 - spring local authorization 
+```
+
 
 ## TAS Development Tricks
 

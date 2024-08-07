@@ -8,3 +8,4 @@ applications:
     JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
     SPRING_PROFILES_ACTIVE: http2,cloud
     JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 21.+ } }'
+    EMBEDDING_OPEN_AI_API_KEY: ((EMBEDDING_OPEN_AI_API_KEY))
