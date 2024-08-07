@@ -7,9 +7,16 @@ management:
 spring:
   ai:
     openai:
+      embedding:
+        options:
+          model: text-embedding-ada-002
+        base-url: "https://api.openai.com"
+        api-key: ${EMBEDDING_OPEN_AI_API_KEY}
       chat:
         options:
           model: gpt-3.5-turbo
+        base-url: "https://api.openai.com"
+        api-key: ${EMBEDDING_OPEN_AI_API_KEY}
   application:
     name: acme-assist
   autoconfigure:
@@ -18,3 +25,4 @@ spring:
   cloud:
     config:
       enabled: false
+
