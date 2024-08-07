@@ -1,0 +1,46 @@
+# ####################################################
+# routes.yaml
+# ####################################################
+spring:
+  cloud:
+    gateway:
+      routes:
+        - order: 0
+          ssoEnabled: true
+          uri: http://localhost:8083
+          predicates:
+            - Path=/acme-login
+            - Method=GET
+          filters:
+            - RedirectTo=302, /
+          tags:
+            - sso
+        - uri: http://localhost:8083
+          predicates:
+            - Path=/userinfo
+            - Method=GET
+          filters:
+            - RedirectTo=302, /whoami
+            - SetResponseHeader=Cache-Control, no-store
+            - SsoLogin
+            - TokenRelay
+          tags:
+            - users
+        - uri: no://op
+          predicates:
+            - Path=/verify-token
+            - Method=POST
+          ssoEnabled: true
+          tags:
+            - users
+        - uri: http://localhost:8083
+          predicates:
+            - Path=/whoami
+            - Method=GET
+          filters:
+            - StripPrefix=0
+            - TokenRelay
+            - SsoLogin
+          tags:
+            - users
+
