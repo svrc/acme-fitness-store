@@ -21,4 +21,4 @@ spring:
     url: jdbc:postgresql://localhost:5434/acme-catalog
 eureka:
   client:
-    enabled: false
+    enabled: true

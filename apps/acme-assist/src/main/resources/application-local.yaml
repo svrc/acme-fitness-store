@@ -22,7 +22,7 @@ spring:
     config:
       enabled: false
     discovery:
-      enabled: false
+      enabled: true
   datasource:
     username: root
     password: rootpassword
