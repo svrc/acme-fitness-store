@@ -162,6 +162,34 @@ cd local-development/discovery-server
 ./gradlew bootRun
 ```
 
+### Spring Cloud Gateway Server
+
+Talk to your broadcom contact to get the Spring Commercial Gateway Jar for running local.
+Place the jar named as `gateway-2.2.4.jar` into the directory `local-development/spring-cloud-gateway` 
+```bash
+local-development/spring-cloud-gateway
+chmod u+x run.sh
+./run.sh
+```
+
+### Tanzu Local Authentication Server
+Talk to your broadcom contact to get the Tanzu Authentication Server Jar for running it.
+ 
+```bash
+java -jar tanzu-local-authorization-server.jar
+```
+In the `local-development/spring-cloud-gateway/scg-config.yml` Ensure the Authorization server is referenced.
+```yaml
+spring:
+  security: #Obtained from Local Spring Authorization
+    oauth2:
+      client:
+        provider:
+          sso:
+            issuer-uri: http://localhost:9000
+
+```
+
 ### Local Development Ports
 ```
 localhost:8080 - acme-shopping - Frontend
@@ -169,7 +197,8 @@ localhost:8081 - acme-assist - SpringBoot - AI integtegration
 localhost:8085 - acme-cart - Python application
 localhost:8082 - acme-catalog - SpringBoot - CrudRepository
 localhost:8083 - acme-identity - SpringBoot - Token Resource server
-localhost:8084 - acme-payment - SpringBoot -  ???
+localhost:8084 - acme-payment - SpringBoot -  Service related to checkout
+localhost:8085 - acme-cart - Python server -  Service for Management of Cart
 localhost:8086 - acme-order - DotNet application
 localhost:8090 - spring-cloud-gateway 
 localhost:8761 - local discovery server
