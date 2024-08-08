@@ -88,18 +88,18 @@ cf create-service p.gateway standard acme-gateway -c '{"sso": { "plan": "uaa", "
 cf create-service genai shared genai
 
 cd acme-identity
-./gradlew asemble
+./gradlew assemble
 cf push --no-start
 cf bind-service acme-identity acme-registry
-cf bind-service acme-identity acme-sso -c ‘ ‘ 
+cf bind-service acme-identity acme-sso
 cf bind-service acme-identity acme-config 
-cf bind-service acme-identity acme-gateway -c ../../gateway/config/identity-service.json
+cf bind-service acme-identity acme-gateway -c identity-routes.json
 cf start acme-identity
 
 cd ../acme-cart
 cf push --no-start
 cf bind-service acme-cart acme-redis
-cf bind-service acme-cart acme-gateway -c ../../gateway/config/cart_routes.json
+cf bind-service acme-cart acme-gateway -c cart-routes.json
 cf start acme-cart
 
 cd ../acme-payment
@@ -107,17 +107,8 @@ cd ../acme-payment
 cf push --no-start
 cf bind-service acme-payment acme-registry
 cf bind-service acme-payment acme-config
+cf bind-service acme-payment acme-gateway -c pay-routes.json
 cf start acme-payment
-
-cd ../acme-assist
-./mvnw clean package
-cf push --no-start
-cf bind-service acme-assist acme-registry
-cf bind-service acme-assist acme-assist-postgres
-cf bind-service acme-assist genai 
-cf bind-service acme-cart acme-gateway -c ../../gateway/config/assist-service.json
-
-cf start acme-assist
 
 cd ../acme-catalog
 ./gradlew clean assemble
@@ -125,13 +116,29 @@ cf push --no-start
 cf bind-service acme-catalog acme-registry
 cf bind-service acme-catalog acme-config
 cf bind-service acme-catalog acme-postgres
-cf bind-service acme-cart acme-gateway -c ../../gateway/config/catalog-service.json
+cf bind-service acme-catalog acme-gateway -c catalog-service_rate-limit.json
 cf start acme-catalog
 
+cd ../acme-assist
+./mvnw clean package -DskipTests
+cf push --no-start --var EMBEDDING_OPEN_AI_API_KEY=<your-open-ai-key>
+cf bind-service acme-assist acme-registry
+cf bind-service acme-assist acme-assist-postgres
+cf bind-service acme-assist genai 
+cf bind-service acme-assist acme-gateway -c assist-routes.json
+cf start acme-assist
+
+cd ../acme-order
+dotnet publish -r linux-x64
+cf push --no-start
+cf bind-service acme-order acme-order-postgres
+cf bind-service acme-order acme-gateway -c order-routes.json
+
+cf start acme-order
 
 cd ../acme-shopping
 cf push --no-start
-cf bind-service-acme-shopping acme-gateway - c ../../gateway/config/frontend.json
+cf bind-service acme-shopping acme-gateway -c frontend-routes.json
 cf start acme-shopping
 ```
 
