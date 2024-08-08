@@ -150,19 +150,29 @@ Note: ensure that the environment variable for TAS has
 ### Config server
 Config in TAS is created by a Repo backed tile. Locally instead will be spring boot config server run locally on port 8888.
 ```bash
-cd local-development
- ./mvnw -e spring-boot:run -Dspring-boot.run.profiles=local
+cd local-development/config-server
+./mvnw -e spring-boot:run -Dspring-boot.run.profiles=local
 ```
+
+### Discovery server
+Spring boot apps (Identify, Catalog, Payment, Assist) communicate via TAS service registry. For local development, a local instance of Eureka discovery server can be used to enable communication between apps.
+
+```bash
+cd local-development/discovery-server
+./gradlew bootRun
+```
+
 ### Local Development Ports
 ```
-localhost:5000 - acme-cart TODO-Change ports
 localhost:8080 - acme-shopping - Frontend
 localhost:8081 - acme-assist - SpringBoot - AI integtegration
+localhost:8085 - acme-cart - Python application
 localhost:8082 - acme-catalog - SpringBoot - CrudRepository
 localhost:8083 - acme-identity - SpringBoot - Token Resource server
 localhost:8084 - acme-payment - SpringBoot -  ???
 localhost:8086 - acme-order - DotNet application
 localhost:8090 - spring-cloud-gateway 
+localhost:8761 - local discovery server
 localhost:8888 - spring local config server 
 localhost:9000 - spring local authorization 
 ```
