@@ -33,7 +33,7 @@ Verify the health of the application:
 
 
 ###
-Build  deployable
+Build deployable
 
 ```bash
 dotnet publish -r linux-x64

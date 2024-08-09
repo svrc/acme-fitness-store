@@ -50,21 +50,6 @@ The images are tagged with:
 
 * Contains all the js functions for handling certain front end actions
 
-## Available users
-
-There are four pre-created users loaded into the database:
-
-| User   | Password   |
-|--------|------------|
-| eric   | `vmware1!` |
-| dwight | `vmware1!` |
-| han    | `vmware1!` |
-| phoebe | `vmware1!` |
-
-* You MUST login as one of the users mentioned above to access all the pages in the application
-* The current user service will set a cookie ```logged_in``` in the browser. This cookie contains the User ID returned from the user service
-* The service uses JWT and sets 2 cookies - ```logged_in``` and ```refresh_token```
-
 ## License
 
 See the [LICENSE](./LICENSE) file in the repository
