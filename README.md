@@ -194,7 +194,6 @@ spring:
 ```
 localhost:8080 - acme-shopping - Frontend
 localhost:8081 - acme-assist - SpringBoot - AI integtegration
-localhost:8085 - acme-cart - Python application
 localhost:8082 - acme-catalog - SpringBoot - CrudRepository
 localhost:8083 - acme-identity - SpringBoot - Token Resource server
 localhost:8084 - acme-payment - SpringBoot -  Service related to checkout

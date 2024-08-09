@@ -9,7 +9,7 @@ spring:
     name: acme-identity
   config:
     activate:
-      on-profile: tap
+      on-profile: default
   security:
     oauth2:
       resourceserver:

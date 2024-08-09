@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using AcmeOrder.Db;
@@ -12,6 +13,9 @@ using AcmeOrder.Request;
 using AcmeOrder.Response;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Steeltoe.Common.Discovery;
+using Steeltoe.Discovery;
+
 
 namespace AcmeOrder.Services;
 
@@ -21,16 +25,16 @@ public class OrderService
     private readonly OrderContext _context;
     private readonly HttpClient _httpClient;
     private readonly ILogger<OrderService> _logger;
-    private readonly string _paymentUrl;
 
-    public OrderService(PostgresOrderContext context, ILogger<OrderService> logger)
+
+
+    public OrderService(PostgresOrderContext context, ILogger<OrderService> logger, HttpClient httpClient)
     {
         _context = context;
         _logger = logger;
-        _httpClient = new HttpClient();
+        _httpClient = httpClient;
 
-        var paymentHost = Environment.GetEnvironmentVariable("PAYMENT_SERVICE_SERVICE_HOST") ?? "payment-service";
-        _paymentUrl = $"http://{paymentHost}/pay";
+
     }
 
     public async Task<OrderCreateResponse> Create(string userid, Order orderIn, string authorization)
@@ -103,8 +107,8 @@ public class OrderService
         var json = JsonConvert.SerializeObject(paymentRequest);
         var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-        _logger.LogDebug("Making Payment Request for {total} to {url}", total, _paymentUrl);
-        var request = new HttpRequestMessage(HttpMethod.Post, _paymentUrl);
+        _logger.LogDebug("Making Payment Request for {total} to {baseurl}/pay", total, _httpClient.BaseAddress);
+        var request = new HttpRequestMessage(HttpMethod.Post, "/pay");
         request.Content = data;
         request.Headers.Authorization = AuthenticationHeaderValue.Parse(authorization);
 
@@ -116,10 +120,10 @@ public class OrderService
             response.StatusCode != HttpStatusCode.BadRequest &&
             response.StatusCode != HttpStatusCode.PaymentRequired) return new Payment();
 
-        var result = response.Content.ReadAsStringAsync().Result;
-        var obj = JsonConvert.DeserializeObject<Payment>(result);
-
-        return obj ?? new Payment();
+        var str = await response.Content.ReadAsStringAsync();
+        _logger.LogInformation(str);
+        var result = JsonConvert.DeserializeObject<Payment>(str);
+        return result;
     }
 
     private static List<OrderResponse> FromOrderToOrderResponse(IEnumerable<Order> orderList)
