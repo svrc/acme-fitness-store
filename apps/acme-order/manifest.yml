@@ -5,3 +5,5 @@ applications:
     path: bin/Release/net8.0/linux-x64/publish/
     buildpacks: 
       - dotnet_core_buildpack
+    env:
+      AcmeServiceSettings__AuthUrl: "https://acme-fitness.apps.tas.vmtanzu.com" # To be replaced with your Gateway url in TAS

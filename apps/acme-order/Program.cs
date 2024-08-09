@@ -1,3 +1,4 @@
+using System;
 using AcmeOrder.Auth;
 using AcmeOrder.Configuration;
 using AcmeOrder.Db;
@@ -6,6 +7,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Npgsql;
+using Steeltoe.Common.Http.Discovery;
+using Steeltoe.Discovery.Client;
+using Steeltoe.Discovery.Eureka;
 using Steeltoe.Extensions.Configuration.CloudFoundry;
 using Steeltoe.Management.Endpoint;
 
@@ -14,7 +19,7 @@ builder.AddCloudFoundryConfiguration();
 var services = builder.Services;
 var configuration = builder.Configuration;
 builder.AddAllActuators();
-
+builder.AddServiceDiscovery(c => c.UseEureka());
 
 services.Configure<AcmeServiceSettings>(configuration.GetSection(nameof(AcmeServiceSettings)));
 
@@ -28,11 +33,13 @@ switch (configuration["DatabaseProvider"])
         break;
 
     case "Postgres":
+        NpgsqlConnection.GlobalTypeMapper.EnableDynamicJson();
         services.AddDbContext<OrderContext, PostgresOrderContext>();
         break;
 }
 
-services.AddScoped<OrderService>();
+services.AddHttpClient<OrderService>(c => c.BaseAddress = new Uri("https://acme-payment"))
+    .AddServiceDiscovery();
 services.AddControllers();
 services.AddScoped<AuthorizeResource>();
 
