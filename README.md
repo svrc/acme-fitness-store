@@ -118,7 +118,7 @@ cd local-development/discovery-server
 
 ### Spring Cloud Gateway Server
 
-Talk to your broadcom contact to get the Spring Commercial Gateway Jar for running local.
+Obtain from Broadcom download portal to get the Spring Commercial Gateway Jar for running local.
 Place the jar named as `gateway-2.2.4.jar` into the directory `local-development/spring-cloud-gateway` 
 ```bash
 local-development/spring-cloud-gateway
@@ -127,7 +127,7 @@ chmod u+x run.sh
 ```
 
 ### Tanzu Local Authentication Server
-Talk to your broadcom contact to get the Tanzu Authentication Server Jar for running it.
+Obtain from Broadcom download portal to get the Tanzu Authentication Server Jar for running it.
  
 ```bash
 java -jar tanzu-local-authorization-server.jar
@@ -143,6 +143,27 @@ spring:
             issuer-uri: http://localhost:9000
 
 ```
+
+### Boot up each of the local application following their README
+
+- [acme-assist](apps/acme-assist/README.md)
+  - local docker compose dependency
+  - start locally via maven wrapper / IDE (with local property)
+- [acme-cart](apps/acme-cart/README.md)
+  - build local running image
+  - local docker compose to run locally
+- [acme-catalog](apps/acme-catalog/README.md)
+  - local docker compose dependency
+  - start locally via gradle wrapper or / IDE (with local property)
+- [acme-identity](apps/acme-identity/README.md)
+  - start locally via gradle wrapper or / IDE (with local property)
+- [acme-order](apps/acme-order/README.md)
+  - local docker compose dependency
+  - DotNet run or start via IDE
+- [acme-payment](apps/acme-payment/README.md)
+  - start locally via gradle wrapper or / IDE (with local property)
+- [acme-shopping](apps/acme-shopping/README.md)
+  - `npm install` and `npm run start` 
 
 ### Local Development Ports
 ```

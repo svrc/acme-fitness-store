@@ -50,6 +50,13 @@ The images are tagged with:
 
 * Contains all the js functions for handling certain front end actions
 
+### Local Running
+```bash
+npm install
+npm run start
+```
+
+
 ## License
 
 See the [LICENSE](./LICENSE) file in the repository
