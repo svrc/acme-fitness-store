@@ -11,6 +11,8 @@ In Visual Studio Code
 Download the DotNet C# Dev Kit extension
 VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit
 
+## Locally running acme-order
+
 To run the acme order service, do the following:
 
 Start the mongodb container:
@@ -31,10 +33,21 @@ Verify the health of the application:
     open localhost:8086/actuator/health
 ```
 
+## Deploying acme-order app
 
-###
-Build deployable
+### Build deployable
 
 ```bash
 dotnet publish -r linux-x64
+```
+
+### Deploy on TAS
+
+Included [manifest.yml](./manifest.yml) file can be used to deploy the published binary
+
+Ensure you're logged in to your TAS instance on cf cli
+
+```bash
+cf login -a <your-tas-api-url>
+cf push -f manifest.yml
 ```

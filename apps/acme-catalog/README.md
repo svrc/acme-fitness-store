@@ -13,6 +13,9 @@ Catalog contains a database it talks to store the information it needs.
 
 
 ## Local running
+
+Ensure the local development dependencies are running. (See main [README](../../README.md))
+
 Setup Docker database dependency
 
 `docker compose -d up`

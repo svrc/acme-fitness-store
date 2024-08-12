@@ -41,16 +41,16 @@ The images are tagged with:
 
 ### public/
 
-* Contains all the html file
-* every html file has a <script> tag under which the AJAX scripts are added
+* Contains all the html file  
+* every html file has a \<script/\> tag under which the AJAX scripts are added
 * follow the index.html for some of the naming conventions. Especially for the Top navigation bar and the footer
-* make changes as necessary for your service (like redirecting to another page, loading a different html etc)
+  make changes as necessary for your service (like redirecting to another page, loading a different html etc)
 
 ### public/js/client.js
 
 * Contains all the js functions for handling certain front end actions
 
-### Local Running
+## Local Running
 ```bash
 npm install
 npm run start

@@ -117,16 +117,6 @@ cd local-development
 docker-compose up -d
 ```
 
-### Spring Cloud Gateway Server
-
-Obtain from Broadcom download portal to get the Spring Commercial Gateway Jar for running local.
-Place the jar named as `gateway-2.2.4.jar` into the directory `local-development/spring-cloud-gateway` 
-```bash
-local-development/spring-cloud-gateway
-chmod u+x run.sh
-./run.sh
-```
-
 ### Tanzu Local Authentication Server
 Obtain from Broadcom download portal to get the Tanzu Authentication Server Jar for running it.
  
@@ -144,6 +134,19 @@ spring:
             issuer-uri: http://localhost:9000
 
 ```
+
+### Spring Cloud Gateway Server
+
+Obtain from Broadcom download portal to get the Spring Commercial Gateway Jar for running local.
+Place the jar named as `gateway-2.2.4.jar` into the directory `local-development/spring-cloud-gateway`
+
+```bash
+local-development/spring-cloud-gateway
+chmod u+x run.sh
+./run.sh
+```
+
+> Troubleshooting: Ensure Tanzu Local Authentication Server is running prior to running Spring Cloud Gateway Server.
 
 ### Boot up each of the local application following their README
 
