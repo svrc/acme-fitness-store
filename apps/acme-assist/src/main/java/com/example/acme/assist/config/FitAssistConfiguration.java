@@ -30,9 +30,7 @@ public class FitAssistConfiguration {
     }
 
     @Bean
-    public ChatClient chatClient(OpenAiChatModel openAiChatModel){
-        DefaultChatClientBuilder chatClientBuilder = new DefaultChatClientBuilder(openAiChatModel);
-
+    public ChatClient chatClient(ChatClient.Builder chatClientBuilder){
         return chatClientBuilder.build();
     }
 
