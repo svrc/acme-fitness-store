@@ -3,7 +3,6 @@ import os
 import redis
 from redislite import Redis
 from os import environ
-from azure_vault import vault_secret
 from credhub import credhub_secret
 from distutils.util import strtobool
 
@@ -17,9 +16,7 @@ def redis_connection(logger):
         logger.info('initiating redis connection with password')
         redis_conn = redis.StrictRedis(host=redis_host, port=redis_port, password=redis_password, db=0, ssl=True) 
     else:
-        redis_conn_str = vault_secret('CART-REDIS-CONNECTION-STRING')
-        if redis_conn_str is None and environ.get('REDIS_CONNECTIONSTRING') not in (None, ''):
-            redis_conn_str = str(environ['REDIS_CONNECTIONSTRING'])
+        redis_conn_str = None
         redis_host = environ['REDIS_HOST'] if environ.get('REDIS_HOST') not in (None, '') else None
         redis_port = environ['REDIS_PORT'] if environ.get('REDIS_PORT') not in (None, '') else 6380
         redis_password = environ['REDIS_PASSWORD'] if environ.get('REDIS_PASSWORD') not in (None, '') else None
