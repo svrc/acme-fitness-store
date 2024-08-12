@@ -9,9 +9,6 @@
 
 
 ## Local running
-Setup Docker database dependency
-
-`docker compose -d up`
 
 To run locally
 

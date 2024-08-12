@@ -66,7 +66,7 @@ Get total amount in users cart
 
 ```bash
 curl --request GET \
-  --url http://localhost:5000/cart/total/dan
+  --url http://localhost:8085/cart/total/dan
 ```
 
 ```json
@@ -82,7 +82,7 @@ Update an item in the cart of a user
 
 ```bash
 curl --request POST \
-  --url http://localhost:5000/cart/item/modify/dan \
+  --url http://localhost:8085/cart/item/modify/dan \
   --header 'content-type: application/json' \
   --data '{"itemid":"sfsdsda3343", "quantity":2}'
 ```
@@ -107,7 +107,7 @@ Modify the contents of a cart
 
 ```bash
 curl --request POST \
-  --url http://localhost:5000/cart/modify/dan \
+  --url http://localhost:8085/cart/modify/dan \
   --header 'content-type: application/json' \
   --data '{
   "cart": [
@@ -161,7 +161,7 @@ Add item to cart
 
 ```bash
 curl --request POST \
-  --url http://localhost:5000/cart/item/add/shri \
+  --url http://localhost:8085/cart/item/add/shri \
   --header 'content-type: application/json' \
   --data '{"itemid":"xyz", "quantity":3}'
 ```
@@ -186,7 +186,7 @@ Get the total number of items in a cart
 
 ```bash
 curl --request GET \
-  --url http://localhost:5000/cart/items/total/shri
+  --url http://localhost:8085/cart/items/total/shri
 ```
 
 ```json
@@ -202,7 +202,7 @@ Clear all items from the cart
 
 ```bash
 curl --request GET \
-  --url http://localhost:5000/cart/clear/dan
+  --url http://localhost:8085/cart/clear/dan
 ```
 
 ```text
@@ -215,7 +215,7 @@ Get all items in a cart
 
 ```bash
 curl --request GET \
-  --url http://localhost:5000/cart/items/dan
+  --url http://localhost:8085/cart/items/dan
 ```
 
 ```json
@@ -246,7 +246,7 @@ Get all the carts
 
 ```bash
 curl --request GET \
-  --url http://localhost:5000/cart/all
+  --url http://localhost:8085/cart/all
 ```
 
 ```json
