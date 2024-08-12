@@ -148,15 +148,15 @@ spring:
 
 - [acme-assist](apps/acme-assist/README.md)
   - local docker compose dependency
-  - start locally via maven wrapper / IDE (with local property)
+  - start locally via maven wrapper / IDE (with `local` active profile)
 - [acme-cart](apps/acme-cart/README.md)
   - build local running image
   - local docker compose to run locally
 - [acme-catalog](apps/acme-catalog/README.md)
   - local docker compose dependency
-  - start locally via gradle wrapper or / IDE (with local property)
+  - start locally via gradle wrapper or / IDE (with `local` active profile)
 - [acme-identity](apps/acme-identity/README.md)
-  - start locally via gradle wrapper or / IDE (with local property)
+  - start locally via gradle wrapper or / IDE (with `local` active profile)
 - [acme-order](apps/acme-order/README.md)
   - local docker compose dependency
   - DotNet run or start via IDE

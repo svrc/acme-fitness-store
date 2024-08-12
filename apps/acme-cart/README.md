@@ -3,7 +3,7 @@
 
 > A cart service, because what is a shop without a cart to put stuff in?
 
-The Cart service is part of the [ACME Fitness Shop](https://github.com/Azure-Samples/acme-fitness-store). The goal of this specific service is to keep track of carts and items in the different carts.
+The goal of this specific service is to keep track of carts and items in the different carts.
 
 ## Prerequisites
 
@@ -274,13 +274,6 @@ curl --request GET \
   ]
 }
 ```
-
-## Contributing
-
-[Pull requests](https://github.com/Azure-Samples/acme-fitness-store/pulls) are welcome. For major changes, please open [an issue](https://github.com/Azure-Samples/acme-fitness-store/issues) first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
-
 
 ## License
 
