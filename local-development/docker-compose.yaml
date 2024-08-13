@@ -18,36 +18,15 @@ services:
       SPRING_PROFILES_ACTIVE: native
       SPRING_CLOUD_CONFIG_SERVER_NATIVE_SEARCH_LOCATIONS: "file:///config"
 
-  auth:
-    container_name: auth-server
-    image: eclipse-temurin:21
-    ports:
-      - "9000:9000"
-    volumes:
-      - ./spring-cloud-gateway:/app
-    command: ["java", "-jar", "/app/tanzu-local-authorization-server-beta4.jar"]
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:9000" ]
-      interval: 3s
-      timeout: 10s
-      retries: 5
-
-  gateway:
-    container_name: gateway-server
+  gateway-auth:
+    container_name: gateway-and-auth-servers
     image: eclipse-temurin:21
     ports:
       - "8090:8090"
+      - "9000:9000"
     volumes:
       - ./spring-cloud-gateway:/app
     working_dir: /app
     command: [ "bash", "./run.sh" ]
-    depends_on:
-      auth:
-        condition: service_healthy
-    links:
-      - auth
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    environment:
-      SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_SSO_ISSUER_URI: http://auth:9000
-      SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_SSO_AUTHORIZATION_URI: http://localhost:9000/oauth2/authorize
