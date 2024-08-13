@@ -4,6 +4,13 @@ applications:
   memory: 1G
   path: target/acme-assist-0.0.1-SNAPSHOT.jar
   buildpack: java_buildpack_offline
+  services:
+    - acme-assist-postgres
+    - acme-config
+    - acme-registry
+    - genai-chat
+  routes:
+    - route: acme-assist.apps.internal
   env:
     JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
     SPRING_PROFILES_ACTIVE: http2,cloud
