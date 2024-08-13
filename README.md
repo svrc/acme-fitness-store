@@ -67,24 +67,18 @@ cf start acme-identity
 
 cd ../acme-cart
 cf push --no-start
-cf bind-service acme-cart acme-redis
 cf bind-service acme-cart acme-gateway -c cart-routes.json
 cf start acme-cart
 
 cd ../acme-payment
 ./gradlew assemble
 cf push --no-start
-cf bind-service acme-payment acme-registry
-cf bind-service acme-payment acme-config
 cf bind-service acme-payment acme-gateway -c pay-routes.json
 cf start acme-payment
 
 cd ../acme-catalog
 ./gradlew clean assemble
 cf push --no-start
-cf bind-service acme-catalog acme-registry
-cf bind-service acme-catalog acme-config
-cf bind-service acme-catalog acme-postgres
 cf bind-service acme-catalog acme-gateway -c catalog-service_rate-limit.json
 cf start acme-catalog
 
@@ -99,13 +93,14 @@ cf bind-service acme-assist acme-registry
 cf bind-service acme-assist acme-assist-postgres
 cf bind-service acme-assist acme-genai-chat
 cf bind-service acme-assist acme-genai-embed
+cf add-network-policy acme-assist acme-catalog
 cf bind-service acme-assist acme-gateway -c assist-routes.json
 cf start acme-assist
 
 cd ../acme-order
 dotnet publish -r linux-x64
 cf push --no-start
-cf bind-service acme-order acme-order-postgres
+cf add-network-policy acme-order acme-payment
 cf bind-service acme-order acme-gateway -c order-routes.json
 cf start acme-order
 
