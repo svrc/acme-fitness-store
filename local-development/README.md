@@ -1,51 +1,21 @@
-### Config server
-Config in TAS is created by a Repo backed tile. For local development, included [docker-compose.yml](docker-compose.yaml) will start up an instance of config-server on port 8888.
+# Local Development
 
+## Local Dependencies
+
+After following instructions in [Spring Enterprise setup](spring-enterprise/README.md) to obtain the JAR.
+
+This will setup the following for you for local development
+- Config Server
+  - Config in TAS is created by a Repo backed tile. For local development, included [docker-compose.yml](docker-compose.yaml) will start up an instance of config-server on port 8888.
+
+- Eureka Server
+  - Spring boot apps (Identify, Catalog, Payment, Assist) communicate via TAS service registry. For local development, included [docker-compose.yml](docker-compose.yaml) starts up a local instance of Eureka discovery server on port 8761.
+- Local Tanzu Authorization Server
+- Commercial Spring Cloud Gateway
 ```bash
 cd local-development
-docker compose up -d config
+docker compose up -d
 ```
-
-### Discovery server
-Spring boot apps (Identify, Catalog, Payment, Assist) communicate via TAS service registry. For local development, included [docker-compose.yml](docker-compose.yaml) starts up a local instance of Eureka discovery server on port 8761.
-
-```bash
-cd local-development
-docker compose up -d discovery
-```
-
-### Tanzu Local Authentication Server
-Follow the instructions on ["Getting Started with Tanzu Local Authorization Server"](https://docs.vmware.com/en/Tanzu-Spring-Runtime/Commercial/Tanzu-Spring-Runtime/local-auth-server-about-local-auth-server.html) page to obtain the jar executable from Broadcom download portal.
-
-Place the jar named as `tanzu-local-authorization-server-beta4.jar` into the directory `local-development/spring-cloud-gateway`.
-
-Given jar is placed correctly, included [docker-compose.yml](docker-compose.yaml) starts up a local instance of Tanzu Local Authentication Server on port 9000.
-
-```bash
-cd local-development
-docker compose up -d auth
-```
-
-### Spring Cloud Gateway Server
-
-Obtain from Broadcom download portal to get the Spring Commercial Gateway Jar for running local.
-Place the jar named as `gateway-2.2.4.jar` into the directory `local-development/spring-cloud-gateway`
-
-Given jar is placed correctly, included [docker-compose.yml](docker-compose.yaml) starts up a local instance of Spring Cloud Gateway Server on port 8090.
-
-```bash
-cd local-development
-docker compose up -d gateway
-```
-
-> **Additional information:**  
-> In the [docker-compose.yaml](docker-compose.yaml) under local-development folder, ensure the Authorization server is referenced.
-> ```yaml
->   gateway:
->     ...
->     environment:
->       SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_SSO_ISSUER_URI: http://auth:9000
-> ```
 
 ### Boot up each of the local application following their README
 
