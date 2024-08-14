@@ -61,8 +61,7 @@ public class UpdateVectorStoreJob implements CommandLineRunner {
         for (var productId : productIds) {
             var document = DocumentUtils.createDocument(this.productRepository.getProductById(productId));
             LOGGER.info("Calling EmbeddingClient for document id = {}", document.getId());
-            List<Double> embedding = this.embeddingModel.embed(document);
-            document.setEmbedding(embedding);
+            document.setEmbedding(this.embeddingModel.embed(document));
             documents.add(document);
         }
         indexDocuments(documents);
