@@ -15,7 +15,7 @@ applications:
         redirect_uris: ["https://acme-fitness.apps.tas.vmtanzu.com"]
         auto_approved_scopes: ["openid"]
         identity_providers: ["uaa"]
-        launch_url: "https://acme-fitness.apps.tas.vmtanzu.com",
+        launch_url: "https://acme-fitness.apps.tas.vmtanzu.com"
         show_on_home_page: true
   routes:
     - route: acme-identity.apps.internal
