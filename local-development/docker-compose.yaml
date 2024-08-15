@@ -30,3 +30,62 @@ services:
     command: [ "bash", "./run.sh" ]
     extra_hosts:
       - "host.docker.internal:host-gateway"
+  
+  assist-postgres:
+    container_name: pgvector_container
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: rootpassword
+      POSTGRES_DB: acme-assist
+    ports:
+      - "5433:5432"
+  
+  catalog-postgres:
+    container_name: postgres_container
+    image: postgres
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: rootpassword
+      POSTGRES_DB: acme-catalog
+    ports:
+      - "5434:5432"
+  
+  order-postgres:
+    container_name: order_service_postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: rootpassword
+      POSTGRES_DB: acme-order
+    ports:
+      - "5432:5432"
+
+  cart:
+    image: acme-cart:latest
+    hostname: cart
+    restart: always
+    ports:
+      - '8085:5000'
+    cap_drop:
+      - all
+    cap_add:
+      - NET_BIND_SERVICE
+    read_only: true
+    environment:
+      - REDIS_HOST=reddb
+      - REDIS_PORT=6379
+      - AUTH_MODE=0
+  
+  reddb:
+    image: bitnami/redis:latest
+    hostname: reddb
+    restart: always
+    cap_drop:
+      - all
+    cap_add:
+      - NET_BIND_SERVICE
+    ports:
+      - '6379:6379'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
