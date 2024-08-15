@@ -6,4 +6,4 @@ applications:
     buildpacks: 
       - dotnet_core_buildpack
     env:
-      AcmeServiceSettings__AuthUrl: "https://acme-fitness.apps.tas.vmtanzu.com" # To be replaced with your Gateway url in TAS
+      AcmeServiceSettings__AuthUrl: "https://acme-fitness.apps.vcf3.vmtanzu.com" # To be replaced with your Gateway url in TAS
