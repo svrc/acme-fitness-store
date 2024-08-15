@@ -143,3 +143,31 @@ function getImageUrl(productId, setUrl) {
 
     return imageurl
 }
+
+// Get the total items for a users cart
+
+function getCartItems(userid) {
+    var cartItems = null;
+    
+    $.ajax({
+        url: `/cart/items/${userid}`,
+        type: "GET",
+        async: false, 
+        success: function(body, textStatus, jqXHR) {
+            if (jqXHR.status === 200) {
+                cartItems = body.cart;
+            } else if (jqXHR.status === 204) {
+                console.log(`No items found in cart for user ${userid}`);
+                cartItems = [];
+            } else {
+                console.log(`Unexpected status code: ${jqXHR.status}`);
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('Error retrieving cart items: ' + errorThrown);
+            cartItems = [];
+        }
+    });
+    
+    return cartItems;
+}

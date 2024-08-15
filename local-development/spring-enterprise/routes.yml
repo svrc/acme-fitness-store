@@ -90,7 +90,7 @@ spring:
            - Method=GET
           filters:
            - StripPrefix=0
-           - RateLimit=2,5s
+           - RateLimit=5,5s
           tags:
            - catalog
         - title: products-id-route

@@ -10,4 +10,6 @@ public class AcmeChatMessage {
 
     private String content;
 
+    private String currentProduct;
+
 }
