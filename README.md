@@ -37,16 +37,30 @@ cf create-service postgres on-demand-postgres-db acme-postgres
 cf create-service postgres on-demand-postgres-db acme-assist-postgres
 cf create-service postgres on-demand-postgres-db acme-order-postgres       
 cf create-service p.config-server standard acme-config  -c  '{ "git": { "uri": "https://github.com/svrc/acme-fitness-store-config" }}'
+
+# This assumes Tanzu Single Sign on for TAS/TPCF is installed and configured against UAA.  You can also use other identity providers if you change the plan and binding below.
 cf create-service p-identity uaa acme-sso   
 cf create-service p.service-registry standard acme-registry  
 cf create-service p.gateway standard acme-gateway -c '{"sso": { "plan": "uaa", "scopes": ["openid", "profile", "email"] }, "host": "acme-fitness" ,"cors": { "allowed-origins": [ "*" ] }}'
-cf create-service genai shared genai
+
+# This assumes you have a Chat and Embedding model plan configured with GenAI for Tanzu Platform v0.6+
+cf create-service genai <CHAT MODEL PLAN> acme-genai-chat
+cf create-service genai <EMBED MODEL PLAN> acme-genai-embed
 
 cd acme-identity
 ./gradlew assemble
 cf push --no-start
 cf bind-service acme-identity acme-registry
-cf bind-service acme-identity acme-sso
+
+# Replace [YOUR APPS DOMAIN] with your TPCF's apps domain for the gateway
+cf bind-service acme-identity acme-sso -c '{  "grant_types": ["authorization_code"],
+    "scopes": ["openid"],
+    "authorities": ["openid"],
+    "redirect_uris": ["https://acme-fitness.[YOUR APPS DOMAIN]/"],
+    "auto_approved_scopes": ["openid"],
+    "identity_providers": ["uaa"],
+    "show_on_home_page": false}'
+
 cf bind-service acme-identity acme-config 
 cf bind-service acme-identity acme-gateway -c identity-routes.json
 cf start acme-identity
@@ -76,10 +90,15 @@ cf start acme-catalog
 
 cd ../acme-assist
 ./mvnw clean package -DskipTests
+
+# Use this if you're not using the GenAI for Tanzu Platform tile in favor of openai.com or another service
 cf push --no-start --var EMBEDDING_OPEN_AI_API_KEY=<your-open-ai-key>
+# Use this with GenAI 0.6+
+cf push --no-start 
 cf bind-service acme-assist acme-registry
 cf bind-service acme-assist acme-assist-postgres
-cf bind-service acme-assist genai 
+cf bind-service acme-assist acme-genai-chat
+cf bind-service acme-assist acme-genai-embed
 cf bind-service acme-assist acme-gateway -c assist-routes.json
 cf start acme-assist
 
