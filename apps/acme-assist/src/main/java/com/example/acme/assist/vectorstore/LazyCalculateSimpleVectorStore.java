@@ -19,12 +19,11 @@ public class LazyCalculateSimpleVectorStore extends SimpleVectorStore {
     @Override
     public void add(List<Document> documents) {
         for (Document document : documents) {
-            if (document.getEmbedding() != null && !document.getEmbedding().isEmpty()) {
+            if (document.getEmbedding() != null && document.getEmbedding().length != 0) {
                 LOGGER.info("Document id = {} already has an embedding, skipping.", document.getId());
             } else {
                 LOGGER.info("Calling EmbeddingClient for document id = {}", document.getId());
-                List<Double> embedding = this.embeddingModel.embed(document);
-                document.setEmbedding(embedding);
+                document.setEmbedding(this.embeddingModel.embed(document));
             }
             this.store.put(document.getId(), document);
         }
