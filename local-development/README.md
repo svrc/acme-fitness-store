@@ -38,6 +38,9 @@ docker compose up -d
 - [acme-shopping](../apps/acme-shopping/README.md)
     - `npm install` and `npm run start`
 
+### Run E2E Test
+Run the Cypress test in the [e2e](../e2e/README.md) directory.
+
 ### Local Development Ports
 ```
 localhost:8080 - acme-shopping - Frontend

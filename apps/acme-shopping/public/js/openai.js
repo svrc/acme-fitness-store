@@ -68,6 +68,19 @@ async function sendMessage() {
     return message;
   });
 
+  const userId = getUserID();
+  const cartItems = getCartItems(userId);
+  const productInView = getProductInView();
+  const lastItem = context.pop();
+
+  context.push({'content': "Current Product in View: " + productInView, 'role': 'USER'});
+  context.push({'content': "Current Items in Cart: " + summarizeCart(cartItems), 'role': 'USER'});
+
+  context.push(lastItem);
+
+  console.log(context)
+
+
   try {
     const response = await fetch(API_QUESTION_URL, {
       method: 'POST',
@@ -165,6 +178,34 @@ function aiChatToggleOpen() {
   $('#aiChatToggle').prop('checked', false);
   localStorage.chatToggleClosed = false;
   $('#aiChatHistory').scrollTop($('#aiChatHistory').prop('scrollHeight'));
+}
+
+function summarizeCart(cartItems) {
+  if (cartItems.length === 0) {
+    return "Nothing. The cart is empty.";
+  }
+
+  let totalPrice = 0;
+  const itemSummaries = cartItems.map(item => {
+    const itemTotal = parseFloat(item.price) * item.quantity;
+    totalPrice += itemTotal;
+    return `\n- ${item.quantity} x "${item.name}" at $${item.price} each`;
+  });
+
+  const itemList = itemSummaries.join('');
+  const totalPriceFormatted = totalPrice.toFixed(2);
+
+  return `${itemList}\n\nTotal items: ${cartItems.length}\nTotal price: $${totalPriceFormatted}`;
+}
+
+function getProductInView() {
+  let productInView = '';
+
+  if ($('#productTitle').length) {
+    productInView = $('#productTitle').text().trim();
+  }
+
+  return productInView ? productInView : "The customer is not currently viewing a product page";
 }
 
 function init() {
