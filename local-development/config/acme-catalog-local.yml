@@ -22,3 +22,9 @@ spring:
 eureka:
   client:
     enabled: true
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
