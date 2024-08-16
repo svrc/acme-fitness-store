@@ -2,10 +2,9 @@
 
 set -euo pipefail
 
-java -jar ./tanzu-local-authorization-server-beta4.jar &
+java -jar ./tanzu-local-authorization-server.jar &
 
-export SPRING_PROFILES_ACTIVE=sso
-java -jar gateway-2.2.4.jar \
+SPRING_PROFILES_ACTIVE=sso java -jar gateway-2.2.4.jar \
   --add-exports java.base/jdk.internal.ref=ALL-UNNAMED \
   --add-exports java.base/sun.security.x509=ALL-UNNAMED \
   --add-opens java.base/java.lang=ALL-UNNAMED \
