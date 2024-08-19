@@ -102,18 +102,19 @@ Note: ensure that the environment variable for TAS has
 ## Local Development setup
 
 ### Config server
-Config in TAS is created by a Repo backed tile. Locally instead will be spring boot config server run locally on port 8888.
+Config in TAS is created by a Repo backed tile. For local development, included [docker-compose.yml](./local-development/docker-compose.yaml) will start up an instance of config-server on port 8888. 
+
 ```bash
-cd local-development/config-server
-./mvnw -e spring-boot:run -Dspring-boot.run.profiles=local
+cd local-development
+docker-compose up -d
 ```
 
 ### Discovery server
-Spring boot apps (Identify, Catalog, Payment, Assist) communicate via TAS service registry. For local development, a local instance of Eureka discovery server can be used to enable communication between apps.
+Spring boot apps (Identify, Catalog, Payment, Assist) communicate via TAS service registry. For local development, included [docker-compose.yml](./local-development/docker-compose.yaml) starts up a local instance of Eureka discovery server on port 8761.
 
 ```bash
-cd local-development/discovery-server
-./gradlew bootRun
+cd local-development
+docker-compose up -d
 ```
 
 ### Spring Cloud Gateway Server
