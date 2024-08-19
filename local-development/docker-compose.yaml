@@ -1,0 +1,21 @@
+version: '3.7'
+services:
+
+  discovery:
+    container_name: discovery-server
+    image: steeltoeoss/eureka-server
+    platform: linux/amd64
+    ports:
+      - "8761:8761"
+
+  config:
+    container_name: config-server
+    image: steeltoeoss/config-server
+    platform: linux/amd64
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./config:/config
+    environment:
+      SPRING_PROFILES_ACTIVE: native
+      SPRING_CLOUD_CONFIG_SERVER_NATIVE_SEARCH_LOCATIONS: "file:///config"
