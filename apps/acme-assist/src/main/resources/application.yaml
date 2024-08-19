@@ -7,22 +7,22 @@ management:
 spring:
   ai:
     openai:
-      embedding:
-        options:
-          model: text-embedding-ada-002
-        base-url: "https://api.openai.com"
-        api-key: ${EMBEDDING_OPEN_AI_API_KEY}
-      chat:
-        options:
-          model: gpt-3.5-turbo
-        base-url: "https://api.openai.com"
-        api-key: ${EMBEDDING_OPEN_AI_API_KEY}
+      api-key: "YOUR KEY"
+    vectorstore:
+      pgvector: 
+        initialize-schema: true
+        remove-existing-vector-store-table: true
   application:
     name: acme-assist
-  autoconfigure:
-    exclude:
-    - org.springframework.ai.autoconfigure.vectorstore.pgvector.PgVectorStoreAutoConfiguration
   cloud:
     config:
       enabled: false
-
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: root
+    password: rootpassword
+    url: jdbc:postgresql://localhost:5433/acme-assist
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
