@@ -3,3 +3,6 @@ spring:
     openai:
       api-key: foobar-openai-key
       base-url: foobar-openai-baseurl
+eureka:
+  client:
+    enabled: false
