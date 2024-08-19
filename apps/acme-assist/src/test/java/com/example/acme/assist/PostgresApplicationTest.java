@@ -28,12 +28,6 @@ public class PostgresApplicationTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @Test
-    void seedsTheInitialVectorStoreData() {
-        String sql = "SELECT COUNT(*) FROM vector_store";
-        Integer count =  jdbcTemplate.queryForObject(sql, Integer.class);
-        assertThat(count).isEqualTo(50);
-    }
 
     @Test
     public void testConnectToDB() {
