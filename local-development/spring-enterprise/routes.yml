@@ -135,6 +135,7 @@ spring:
             - Path=/acme-login
             - Method=GET
           filters:
+            - SsoLogin
             - RedirectTo=302, /
           tags:
             - sso
@@ -223,7 +224,6 @@ spring:
           filters:
             - StripPrefix=0
             - TokenRelay
-            - SsoLogin
           tags:
             - users
 
