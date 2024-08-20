@@ -1,6 +1,5 @@
 { "routes": [
   {
-    "sso-enabled": true,
     "token-relay": true,
     "predicates": [
       "Path=/pay",
