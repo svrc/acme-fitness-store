@@ -1,6 +1,5 @@
 { "routes": [
   {
-    "sso-enabled": true,
     "token-relay": true,
     "title": "Create an order.",
     "description": "Creates an order for the user.",
@@ -16,7 +15,6 @@
     ]
   },
   {
-    "sso-enabled": true,
     "token-relay": true,
     "title": "Retrieve User's Orders.",
     "description": "Lookup all orders for the given user",
