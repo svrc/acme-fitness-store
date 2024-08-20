@@ -146,7 +146,6 @@ spring:
           filters:
             - RedirectTo=302, /whoami
             - SetResponseHeader=Cache-Control, no-store
-            - SsoLogin
             - TokenRelay
           tags:
             - users
@@ -164,7 +163,6 @@ spring:
           filters:
             - StripPrefix=0
             - TokenRelay
-            - SsoLogin
           tags:
             - users
 
