@@ -10,7 +10,6 @@
     "tags": [
       "cart"
     ],
-    "sso-enabled": true,
     "token-relay": true
   },
   {
@@ -24,7 +23,6 @@
     "tags": [
       "cart"
     ],
-    "sso-enabled": true,
     "token-relay": true
   },
   {
@@ -38,7 +36,6 @@
     "tags": [
       "cart"
     ],
-    "sso-enabled": true,
     "token-relay": true
   },
   {
@@ -52,7 +49,6 @@
     "tags": [
       "cart"
     ],
-    "sso-enabled": true,
     "token-relay": true
   },
   {
@@ -66,7 +62,6 @@
     "tags": [
       "cart"
     ],
-    "sso-enabled": true,
     "token-relay": true
   }
 ]}
