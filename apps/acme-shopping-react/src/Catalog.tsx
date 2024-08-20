@@ -1,13 +1,43 @@
-import React from "react";
-import {Card, CardActionArea, Grid, Stack, Typography} from "@mui/material";
-import {useGetProducts} from "./hooks/ProductHooks.ts";
-import {Link as RouterLink} from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Grid, Paper, Stack, Typography } from "@mui/material";
+import { fetchProducts, Product } from './api/productClient';
+import Bike from './assets/img.png';  // Fallback image or placeholder
 
-export default function Catalog() {
+export default function Home() {
+    const [catalog, setCatalog] = useState<Product[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
+    const navigate = useNavigate();
 
-    const { data, error, isLoading } = useGetProducts();
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error fetching data</div>;
+    useEffect(() => {
+        const loadProducts = async () => {
+            try {
+                const products = await fetchProducts();
+                setCatalog(products);
+                console.log(products);
+            } catch (error) {
+                setError('Failed to load products');
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadProducts();
+    }, []);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
+    const handleProductClick = (id: string) => {
+        navigate(`/products/${id}`);
+    };
 
     return (
         <Stack alignItems='center'>
@@ -15,17 +45,15 @@ export default function Catalog() {
             <h5>Best in Class Products to keep you fit</h5>
 
             <Grid container spacing={3} sx={{width: "75%"}}>
-                {data.data.map((item, index) => (
+                {catalog.map((item, index) => (
                     <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-                        <Card>
-                            <CardActionArea sx={{height: "300px", p:"20px"}} component={RouterLink} to={`/product/${item.id}`}>
-                                <Stack alignItems='center' spacing={2}>
-                                    <img src={item.imageUrl1} width="160px" alt={`image-${item.name}`}></img>
-                                    <Typography align='center'>{item.name}</Typography>
-                                    <Typography>{`USD ${item.price}`}</Typography>
-                                </Stack>
-                            </CardActionArea>
-                        </Card>
+                        <Paper>
+                            <Stack alignItems='center' spacing={2}>
+                                <img src={item.imageUrl1} width="200px"></img>
+                                <Typography>{item.name}</Typography>
+                                <Typography>{`USD ${item.price}`}</Typography>
+                            </Stack>
+                        </Paper>
                     </Grid>
                 ))}
             </Grid>

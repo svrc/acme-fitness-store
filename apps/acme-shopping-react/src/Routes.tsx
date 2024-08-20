@@ -4,6 +4,9 @@ import AcmeAppBar from "./AcmeAppBar.tsx";
 import {Box} from "@mui/material";
 import AcmeFooter from "./AcmeFooter.tsx";
 import ProductDetails from "./ProductDetails.tsx";
+import { UserInfo, getUserInfo } from "./api/userClient.ts";
+import { UserInfoContext } from "./UserInfoContext.tsx";
+import Cookies from "js-cookie";
 
 const Home = lazy(() => import('./Home.tsx'));
 const Catalog = lazy(() => import('./Catalog.tsx'));
@@ -14,13 +17,43 @@ type AppLayoutProps = {
 }
 
 function AppLayout({children}: AppLayoutProps) {
-    return (<Box>
-        <AcmeAppBar/>
-        <Box>
-            {children}
-        </Box>
-        <AcmeFooter/>
-    </Box>);
+    const [userInfo, setUserInfo] = React.useState<UserInfo | null>(null);
+
+    React.useEffect(() => {
+        
+        const fetchUserInfo = async () => {
+            const user = await getUserInfo();
+            setUserInfo(user);
+        };
+
+        fetchUserInfo();
+    }, []);
+
+    const handleLogin = () => {
+        if (userInfo) {
+            alert(`You are already logged in as ${userInfo.userName}`);
+        } else {
+            Cookies.set('user_id', ''); 
+            window.location.href = '/acme-login';
+        }
+    };
+
+    const handleLogout = () => {
+        window.location.href = '/scg-logout?redirect=/';
+    };
+
+
+    return (
+        <UserInfoContext.Provider value={userInfo}>
+            <Box>
+                <AcmeAppBar handleLogin={handleLogin} handleLogout={handleLogout}/>
+                <Box>
+                    {children}
+                </Box>
+                <AcmeFooter/>
+            </Box>
+        </UserInfoContext.Provider>
+    );
 }
 
 const mainLayout = (
