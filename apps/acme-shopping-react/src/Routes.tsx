@@ -3,6 +3,7 @@ import React, {lazy, ReactNode, Suspense} from "react";
 import AcmeAppBar from "./AcmeAppBar.tsx";
 import {Box} from "@mui/material";
 import AcmeFooter from "./AcmeFooter.tsx";
+import ProductDetails from "./ProductDetails.tsx";
 
 const Home = lazy(() => import('./Home.tsx'));
 const Catalog = lazy(() => import('./Catalog.tsx'));
@@ -48,6 +49,10 @@ export default function AppRoutes() {
                 {
                     path: "contact",
                     element: <Contact/>
+                },
+                {
+                    path: "product/:productId",
+                    element: <ProductDetails/>
                 },
             ],
         },
