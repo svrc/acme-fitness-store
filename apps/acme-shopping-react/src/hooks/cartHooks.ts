@@ -1,10 +1,11 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { CartData, getCart, CartItemData, addItemToCart, modifyCartItem } from "../api/cartClient.ts";
 
-export const useGetCart = (userId: string) => {
+export const useGetCart = (userId: string, userInfo) => {
     return useQuery<CartData, Error>({
         queryKey: ['getCart', userId],
         queryFn: () => getCart(userId),
+        enabled: !!userInfo,
     });
 };
 

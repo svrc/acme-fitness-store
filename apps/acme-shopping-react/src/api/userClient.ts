@@ -6,9 +6,9 @@ export interface UserInfo {
   userName: string;
 }
 
-export const fetchUserInfo = async (): Promise<UserInfo | null> => {
+export const getUsernfo = async (): Promise<UserInfo | null> => {
   try {
-    
+
     const response = await axios.get<UserInfo>('/userinfo', {
       headers: {
         'Content-Type': 'application/json',

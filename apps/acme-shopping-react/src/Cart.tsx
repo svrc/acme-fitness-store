@@ -1,36 +1,37 @@
-import React from 'react';
-import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import {CartData, CartItemData} from "./api/cartClient.ts";
-import {Link, Stack, Typography} from "@mui/material";
+import { useState } from 'react';
+import { DataGrid, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
+import { CartItemData } from "./api/cartClient";
+import { Link, Stack, Typography } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from "@mui/material/IconButton";
-import {NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { useDeleteCartItem, useGetCart } from './hooks/cartHooks';
+import { useGetUserInfo } from './hooks/userHooks';
 
 export default function Cart() {
+    const { data: userInfo, isLoading: isUserInfoLoading } = useGetUserInfo();
+    const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
+        pageSize: 5,
+        page: 0,
+    });
 
-    // TODO: hook upto API ============
-    const tempCart: CartData = {
-        cart: [
-            {
-                itemid: "42ca484d-1e2a-4a3c-bc65-556df7d8f3cd",
-                name: "Blaze X1",
-                price: "799.99",
-                quantity: 1,
-                shortDescription: "Blaze X1 is a high-performance road bike that offers superior speed and agility, making it perfect for competitive racing or fast-paced group rides. The bike features a lightweight carbon frame, aerodynamic tube shapes, a 12-speed Shimano Ultegra drivetrain, and hydraulic disc brakes for precise stopping power. With its sleek design and cutting-edge technology, Blaze X1 is a bike that is built to perform and dominate on any road."
-            },
-            {
-                itemid: "cd546ace-f14f-4222-9381-50afd13ce33b",
-                name: "Celerity X5",
-                price: "399.99",
-                quantity: 1,
-                shortDescription: "Celerity X5 is a versatile and reliable road bike that is designed for experienced and amateur riders alike. It's designed to provide smooth and comfortable rides over long distances. With an ultra-lightweight and responsive carbon fiber frame, Shimano 105 groupset, hydraulic disc brakes, and 28mm wide tires, this bike ensures efficient power transfer, precise handling, and superior stopping power."
-            }
-        ],
-        userid: 'foobar'
+    if (isUserInfoLoading || !userInfo) {
+        return <div>Loading user information...</div>;
     }
 
-    const total = tempCart.cart.reduce((acc, curr) => acc + (curr.quantity * curr.price), 0);
-    // =====================
+    const { data: cartData, isLoading, error } = useGetCart(userInfo.userId);
+    const deleteCartItemMutation = useDeleteCartItem(userInfo.userId);
+
+    if (isLoading) {
+        return <div>Loading cart...</div>;
+    }
+
+    if (error) {
+        return <div>Error loading cart items.</div>;
+    }
+
+    const cartItems = cartData?.cart ?? [];
+    const total = cartItems.reduce((acc, curr) => acc + (curr.quantity * parseFloat(curr.price)), 0);
 
     const columns: GridColDef[] = [
         {
@@ -41,22 +42,30 @@ export default function Cart() {
             width: 150,
             renderCell: (params) => {
                 const row = params.row as CartItemData;
-                return (<NavLink to={`/product/${row.itemid}`}>
-                    <img
-                        src='/static/images/new_bikes_3.jpg'
-                        alt="Product"
-                        style={{width: '50px', height: '50px', objectFit: 'cover'}}
-                    />
-                </NavLink>);
+                return (
+                    <NavLink to={`/product/${row.itemid}`}>
+                        <img
+                            src='/static/images/new_bikes_3.jpg'
+                            alt="Product"
+                            style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+                        />
+                    </NavLink>
+                );
             },
         },
-        {field: 'name', headerName: 'Product Name', resizable: false, width: 250, renderCell: (params) => {
+        {
+            field: 'name',
+            headerName: 'Product Name',
+            resizable: false,
+            width: 250,
+            renderCell: (params) => {
                 const row = params.row as CartItemData;
                 return <Link href={`/product/${row.itemid}`} color='inherit'>{row.name}</Link>
-            }},
-        {field: 'quantity', headerName: 'Quantity', resizable: false, width: 120},
-        {field: 'price', headerName: 'Unit Price', resizable: false, width: 120},
-        {field: 'discount', headerName: 'Discount', resizable: false, width: 120},
+            }
+        },
+        { field: 'quantity', headerName: 'Quantity', resizable: false, width: 120 },
+        { field: 'price', headerName: 'Unit Price', resizable: false, width: 120 },
+        { field: 'discount', headerName: 'Discount', resizable: false, width: 120 },
         {
             field: 'total',
             headerName: 'Total',
@@ -65,55 +74,72 @@ export default function Cart() {
             sortable: false,
             renderCell: (params) => {
                 const row = params.row as CartItemData;
-                const total = row.price * row.quantity;
+                const total = parseFloat(row.price) * row.quantity;
                 return `$${total.toFixed(2)}`;
             }
         },
         {
-            field: 'delete', headerName: '', resizable: false, width: 100, sortable: false, align: 'center', renderCell: (params) => {
-                return <IconButton color='inherit' onClick={removeItemFromCart}>
-                    <DeleteIcon/>
+            field: 'delete',
+            headerName: '',
+            resizable: false,
+            width: 100,
+            sortable: false,
+            align: 'center',
+            renderCell: (params) => {
+                return <IconButton color='inherit' onClick={() => removeItemFromCart(params.row as CartItemData)}>
+                    <DeleteIcon />
                 </IconButton>
             }
         },
     ];
 
-    return (
-        <Stack alignItems='center' sx={{height: 400, width: '100%', my: '2rem'}} spacing={3}>
-            <Typography variant='h3'>Your Shopping cart awaits!</Typography>
-            <Typography>You currently have {tempCart.cart.length} item(s) in your cart</Typography>
-            <DataGrid
-                sx={{ '& .MuiDataGrid-columnSeparator': { display: 'none' } }}
-                rows={tempCart.cart}
-                columns={columns}
-                pageSize={5}
-                rowsPerPageOptions={[5]}
-                getRowId={getRowId}
-                rowSelection={false}
-                disableColumnMenu
-                disableColumnFilter
-                disableColumnSelector
-                slots={{
-                    footer: CustomTotalFooter
-                }}
-            />
-        </Stack>
-    );
-
-    function getRowId(row) {
+    function getRowId(row: { itemid: string; }) {
         return row.itemid;
     }
 
-    function removeItemFromCart() {
-        // TODO
+    function removeItemFromCart(item: CartItemData) {
+        deleteCartItemMutation.mutate({
+            itemid: item.itemid, quantity: 0,
+            name: item.name,
+            price: item.price,
+            shortDescription: ''
+        });
     }
 
-    function CustomTotalFooter(props) {
+    function CustomTotalFooter() {
         return (
-            <Stack direction='row' sx={{p: 1}} justifyContent='space-between'>
+            <Stack direction='row' sx={{ p: 1 }} justifyContent='space-between'>
                 <Typography>Total</Typography>
-                <Typography sx={{pr: '8rem'}}>${total}</Typography>
+                <Typography sx={{ pr: '8rem' }}>${total.toFixed(2)}</Typography>
             </Stack>
         );
     }
+
+    return (
+        <Stack alignItems='center' sx={{ width: '100%', my: '2rem' }} spacing={3}>
+            <Typography variant='h3'>Your Shopping cart awaits!</Typography>
+            {cartItems.length > 0 ? (
+                <>
+                    <Typography>You currently have {cartItems.length} item(s) in your cart</Typography>
+                    <DataGrid
+                        sx={{ '& .MuiDataGrid-columnSeparator': { display: 'none' } }}
+                        rows={cartItems}
+                        columns={columns}
+                        paginationModel={paginationModel}
+                        onPaginationModelChange={setPaginationModel}
+                        getRowId={getRowId}
+                        rowSelection={false}
+                        disableColumnMenu
+                        disableColumnFilter
+                        disableColumnSelector
+                        slots={{
+                            footer: CustomTotalFooter
+                        }}
+                    />
+                </>
+            ) : (
+                <Typography>Your cart is empty.</Typography>
+            )}
+        </Stack>
+    );
 }
