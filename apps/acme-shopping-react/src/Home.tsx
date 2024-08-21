@@ -24,7 +24,7 @@ export default function Home() {
 
     return (
         <Stack justifyContent='center' alignItems='center' spacing={5}>
-            <CatalogCarousel></CatalogCarousel>
+            <CatalogCarousel/>
             <Divider sx={{width: "50%"}}></Divider>
             <Typography>About Acme Fitness</Typography>
             <Stack direction='row' spacing={5}>

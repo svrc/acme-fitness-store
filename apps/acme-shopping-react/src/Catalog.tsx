@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Grid, Paper, Stack, Typography } from "@mui/material";
 import { fetchProducts, Product } from './api/productClient';
-import Bike from './assets/img.png';  // Fallback image or placeholder
 
 export default function Home() {
     const [catalog, setCatalog] = useState<Product[]>([]);

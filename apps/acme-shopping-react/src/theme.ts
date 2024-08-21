@@ -62,6 +62,18 @@ export const theme = createTheme({
                     },
                 },
             },
+            MuiDataGrid: {
+                styleOverrides: {
+                    root: {
+                        '& .MuiDataGrid-cell:focus': {
+                            outline: 'none'
+                        },
+                        '& .MuiDataGrid-cell:focus-within': {
+                            outline: 'none'
+                        }
+                    },
+                }
+            },
         }
     }
 })

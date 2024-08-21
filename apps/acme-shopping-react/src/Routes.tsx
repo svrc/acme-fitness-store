@@ -11,6 +11,7 @@ import Cookies from "js-cookie";
 const Home = lazy(() => import('./Home.tsx'));
 const Catalog = lazy(() => import('./Catalog.tsx'));
 const Contact = lazy(() => import('./Contact.tsx'));
+const Cart = lazy(() => import('./Cart.tsx'));
 
 type AppLayoutProps = {
     children: ReactNode
@@ -86,6 +87,10 @@ export default function AppRoutes() {
                 {
                     path: "product/:productId",
                     element: <ProductDetails/>
+                },
+                {
+                    path: "cart",
+                    element: <Cart/>
                 },
             ],
         },

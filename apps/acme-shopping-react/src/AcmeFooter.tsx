@@ -19,7 +19,7 @@ export default function AcmeFooter() {
     }
 
     return (
-        <Stack>
+        <Stack sx={{backgroundColor: '#f6f8f9'}}>
             <Stack direction='row' justifyContent='center' spacing={5} sx={{my: "2rem"}}>
                 <Stack>
                     <Typography>Pages</Typography>
