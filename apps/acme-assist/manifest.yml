@@ -8,7 +8,7 @@ applications:
     - acme-assist-postgres
     - acme-config
     - acme-registry
-    - acme-genai
+    - acme-genai-chat
     - acme-genai-embed
   routes:
     - route: acme-assist.apps.internal

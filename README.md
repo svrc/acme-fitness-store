@@ -29,9 +29,13 @@ The sample can be deployed to Azure Spring Apps Enterprise or Tanzu Application 
 | ---------------------------------------------------------------- | ------------- |
 | [apps/](./apps)                                                   | source code for the services  |
 
-## DRAFT Deploy on Tanzu Platform for Cloud Foundry (TPCF aka TAS) - incomplete
+================================================================
+## Deploy on Tanzu Platform for Cloud Foundry (TPCF aka TAS) - incomplete
 
-```
+Assumption that the proper Cloud Foundry CLI has been installed.
+
+#### Create Services
+```bash
 cf create-service p.redis on-demand-cache acme-redis 
 cf create-service postgres on-demand-postgres-db acme-postgres
 cf create-service postgres on-demand-postgres-db acme-assist-postgres
@@ -46,7 +50,10 @@ cf create-service p.gateway standard acme-gateway -c '{"sso": { "plan": "uaa", "
 # This assumes you have a Chat and Embedding model plan configured with GenAI for Tanzu Platform v0.6+
 cf create-service genai <CHAT MODEL PLAN> acme-genai-chat
 cf create-service genai <EMBED MODEL PLAN> acme-genai-embed
+```
 
+#### Identity Service
+```bash
 cd acme-identity
 ./gradlew assemble
 cf push --no-start
@@ -60,55 +67,67 @@ cf bind-service acme-identity acme-sso -c '{  "grant_types": ["authorization_cod
     "auto_approved_scopes": ["openid"],
     "identity_providers": ["uaa"],
     "show_on_home_page": false}'
-
-cf bind-service acme-identity acme-config 
+ 
 cf bind-service acme-identity acme-gateway -c identity-routes.json
 cf start acme-identity
 
+```
+#### Cart Service
+```bash
 cd ../acme-cart
 cf push --no-start
 cf bind-service acme-cart acme-gateway -c cart-routes.json
 cf start acme-cart
+```
 
+#### Payment Service
+```bash
 cd ../acme-payment
 ./gradlew assemble
 cf push --no-start
 cf bind-service acme-payment acme-gateway -c pay-routes.json
 cf start acme-payment
+```
 
+#### Catalog Service
+```bash
 cd ../acme-catalog
 ./gradlew clean assemble
 cf push --no-start
 cf bind-service acme-catalog acme-gateway -c catalog-service_rate-limit.json
 cf start acme-catalog
+```
 
+#### Acme Assist
+```bash
 cd ../acme-assist
-./mvnw clean package -DskipTests
+./gradlew clean assemble
 
-# Use this if you're not using the GenAI for Tanzu Platform tile in favor of openai.com or another service
-cf push --no-start --var EMBEDDING_OPEN_AI_API_KEY=<your-open-ai-key>
 # Use this with GenAI 0.6+
 cf push --no-start 
-cf bind-service acme-assist acme-registry
-cf bind-service acme-assist acme-assist-postgres
-cf bind-service acme-assist acme-genai-chat
-cf bind-service acme-assist acme-genai-embed
 cf add-network-policy acme-assist acme-catalog
 cf bind-service acme-assist acme-gateway -c assist-routes.json
 cf start acme-assist
+```
 
+#### Order Service
+```bash
 cd ../acme-order
 dotnet publish -r linux-x64
 cf push --no-start
 cf add-network-policy acme-order acme-payment
 cf bind-service acme-order acme-gateway -c order-routes.json
 cf start acme-order
+```
 
+#### Shopping Service
+```bash
 cd ../acme-shopping
 cf push --no-start
 cf bind-service acme-shopping acme-gateway -c frontend-routes.json
 cf start acme-shopping
 ```
+=================================================
 
 Note: ensure that the environment variable for TAS has 
 `SPRING_MVC_STATIC_PATH_PATTERN: /static/images/**` set.  Currently have an issue with the value taken from config server being overwritten.

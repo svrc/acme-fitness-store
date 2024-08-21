@@ -16,7 +16,7 @@ applications:
         auto_approved_scopes: ["openid"]
         identity_providers: ["uaa"]
         launch_url: "https://acme-fitness.apps.tas.vmtanzu.com"
-        show_on_home_page: true
+        show_on_home_page: false
   routes:
     - route: acme-identity.apps.internal
   env:
