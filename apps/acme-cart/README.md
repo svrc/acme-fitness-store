@@ -52,7 +52,7 @@ The acme-cart image is based on the official Python image.
 To run the acme-cart and the redis dependency for local test, use the `docker-compose` file: 
 
 ```bash
-# Run the Redis container
+# Run the acme-cart image and Redis container
 docker-compose up
 ```
 
