@@ -62,6 +62,9 @@ services:
       - "5432:5432"
 
   cart:
+    build:
+      context: ../apps/acme-cart
+      dockerfile: Dockerfile
     container_name: cart-server
     image: acme-cart:latest
     hostname: cart
