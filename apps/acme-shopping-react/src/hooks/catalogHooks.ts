@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import {getProduct, getProducts, ProductData} from "../CatalogService.ts";
+import {getProduct, getProducts, ProductData} from "../api/catalogClient.ts";
 
 export const useGetProducts = () => {
     return useQuery<ProductData[]>({

@@ -1,6 +1,5 @@
-import React from 'react';
 import { Card, CardActionArea, Grid, Stack, Typography } from "@mui/material";
-import { useGetProducts } from './hooks/ProductHooks';
+import { useGetProducts } from './hooks/catalogHooks';
 import { Link as RouterLink } from "react-router-dom";
 
 export default function Catalog() {

@@ -1,27 +1,28 @@
+import axios from 'axios';
+
+
 export interface UserInfo {
   userId: string;
   userName: string;
 }
 
-export const getUserInfo = async (): Promise<UserInfo | null> => {
+export const fetchUserInfo = async (): Promise<UserInfo | null> => {
   try {
-    const response = await fetch('/userinfo', {
-      method: 'GET',
+    
+    const response = await axios.get<UserInfo>('/userinfo', {
       headers: {
         'Content-Type': 'application/json',
       },
     });
 
-    if (!response.ok) {
-      console.error('Could not get user information');
-      return null;
-    }
+    return response.data;
 
-    const data = await response.json();
-    console.debug('Received user info:', data);
-    return data;
   } catch (error) {
-    console.error('Could not get user information due to:', error);
+    if (axios.isAxiosError(error)) {
+      console.error('Could not get user information due to:', error.response?.data || error.message);
+    } else {
+      console.error('Could not get user information due to an unexpected error:', error);
+    }
     return null;
   }
 };

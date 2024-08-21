@@ -1,6 +1,6 @@
 import React from 'react';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
-import {CartData, CartItemData} from "./CartService.ts";
+import {CartData, CartItemData} from "./api/cartClient.ts";
 import {Link, Stack, Typography} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from "@mui/material/IconButton";

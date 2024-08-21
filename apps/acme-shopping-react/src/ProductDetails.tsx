@@ -1,6 +1,6 @@
 import React from "react";
 import {useParams} from "react-router-dom";
-import {useGetProduct} from "./hooks/ProductHooks.ts";
+import {useGetProduct} from "./hooks/catalogHooks.ts";
 import {Card, CardActionArea, Divider, Stack, Typography} from "@mui/material";
 import Button from "@mui/material/Button";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';

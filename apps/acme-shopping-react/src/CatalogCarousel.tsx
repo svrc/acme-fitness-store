@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Slider from 'react-slick';
 import Container from "@mui/material/Container";
-import { fetchProducts, Product } from './api/productClient'; 
+import { useGetProducts } from './hooks/catalogHooks'; 
+import { Link } from "react-router-dom";
 
 export default function CatalogCarousel() {
-    const [products, setProducts] = useState<Product[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
+    const { data, isLoading, error } = useGetProducts();
 
     const settings = {
         dots: true,
@@ -16,40 +15,32 @@ export default function CatalogCarousel() {
         slidesToScroll: 1,
     };
 
-    useEffect(() => {
-        const loadProducts = async () => {
-            try {
-                const fetchedProducts = await fetchProducts();
-                setProducts(fetchedProducts.slice(0, 15)); 
-            } catch (error) {
-                setError('Failed to load products');
-                console.error(error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        loadProducts();
-    }, []);
-
-    if (loading) {
+    if (isLoading) {
         return <div>Loading...</div>;
     }
 
     if (error) {
-        return <div>Error: {error}</div>;
+        return <div>Error: Failed to load products</div>;
     }
+
+    if (!data || data.length === 0) {
+        return <div>No products available</div>;
+    }
+
+    const products = data.data.slice(0, 15); 
 
     return (
         <Container sx={{ py: "10px" }}>
-            <Slider {...settings}>
-                {products.map((product) => (
-                    <div key={product.id}>
+        <Slider {...settings}>
+            {products.map((product) => (
+                <div key={product.id}>
+                    <Link to={`/product/${product.id}`} style={{ textDecoration: 'none' }}>
                         <img src={product.imageUrl1} alt={product.name} style={{ width: "100%" }} />
-                        <p style={{ textAlign: "center", marginTop: "10px" }}>{product.name}</p>
-                    </div>
-                ))}
-            </Slider>
-        </Container>
+                        <p style={{ textAlign: "center", marginTop: "10px", color: 'inherit' }}>{product.name}</p>
+                    </Link>
+                </div>
+            ))}
+        </Slider>
+    </Container>
     );
 }
