@@ -61,4 +61,5 @@ hello-world/
 .vscode
 
 # Cypress
+**/cypress/downloads
 **/cypress/screenshots
