@@ -154,13 +154,12 @@
                <div class="text">\
                <h3><a href="detail.html?id=' + product.id + '"' + ' </a>' + product.name + '</h3>\
                <p class="price">USD ' + dollarUSLocale.format(product.price) + '</p>\
-               </div>\
-               <div class="ribbon new">\
-               <div class="theribbon">NEW</div>\
-               <div class="ribbon-background"></div>\
-               </div>\
-               </div>\
                </div>';
+                if(index < 5){
+                  content += '<div class="ribbon new"> <div class="theribbon">NEW</div><div class="ribbon-background"></div></div>';
+                }
+                content += '</div></div>';
+
             });
 
             $("#rowProducts").append(content);
