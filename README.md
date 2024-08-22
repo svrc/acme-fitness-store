@@ -3,6 +3,7 @@
 ACME Fitness store is a fictional online retailer selling sporting goods. This repo contains the source code and deployment scripts for the ACME Fitness store application.
 
 ## High Level Architecture
+![An image showing the services involved in the ACME Fitness Store. It depicts the applications and their dependencies](media/acme-fitness-store-architecture.png)
 
 This application is composed of several services:
 
