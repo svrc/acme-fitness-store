@@ -31,7 +31,7 @@ The sample can be deployed to Azure Spring Apps Enterprise or Tanzu Application 
 | [apps/](./apps)                                                   | source code for the services  |
 
 ================================================================
-## Deploy on Tanzu Platform for Cloud Foundry (TPCF aka TAS) - incomplete
+## Deploy on Tanzu Platform for Cloud Foundry (TPCF aka TAS)
 
 Assumption that the proper Cloud Foundry CLI has been installed.
 
@@ -41,7 +41,9 @@ cf create-service p.redis on-demand-cache acme-redis
 cf create-service postgres on-demand-postgres-db acme-postgres
 cf create-service postgres on-demand-postgres-db acme-assist-postgres
 cf create-service postgres on-demand-postgres-db acme-order-postgres       
-cf create-service p.config-server standard acme-config  -c  '{ "git": { "uri": "https://github.com/svrc/acme-fitness-store-config" }}'
+
+# This sets up your TAS/TPCF config server. It assumes that your config files are located at <this-repository-url> in the branch config (label) under the directory config (searchPaths). You can checkout the branch to see the structure if you like.
+cf create-service p.config-server standard acme-config  -c  '{ "git": { "uri": "<this-repository-url>", "label": "config", "searchPaths": "config" } }'
 
 # This assumes Tanzu Single Sign on for TAS/TPCF is installed and configured against UAA.  You can also use other identity providers if you change the plan and binding below.
 cf create-service p-identity uaa acme-sso   
