@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {DataGrid, GridColDef, GridPaginationModel} from '@mui/x-data-grid';
-import {CartItemData} from "./api/cartClient";
+import {CartItemData} from "./types/Cart.ts"
 import {Box, Link, Stack, Typography, Grid, Container, Breadcrumbs} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from "@mui/material/IconButton";
@@ -9,6 +9,8 @@ import {useDeleteCartItem, useGetCart} from './hooks/cartHooks.ts';
 import {useGetUserInfo} from './hooks/userHooks';
 import Button from "@mui/material/Button";
 import OrderSummary from "./OrderSummary.tsx";
+import {useGetProducts} from "./hooks/catalogHooks.ts";
+import {ProductData} from "./types/Catalog.ts";
 
 export default function Cart() {
     const {data: userInfo, isLoading: isUserInfoLoading} = useGetUserInfo();
@@ -20,9 +22,18 @@ export default function Cart() {
 
     const {data: cartData, isLoading, error} = useGetCart(userInfo.userId, userInfo);
     const deleteCartItemMutation = useDeleteCartItem(userInfo.userId);
+    const {data: productsData, isLoading: isProductsLoading} = useGetProducts();
 
     const cartItems = cartData?.cart ?? [];
     const total = cartItems.reduce((acc, curr) => acc + (curr.quantity * parseFloat(curr.price)), 0);
+
+    console.log(cartItems)
+
+    const getProductImg = (itemId: string) => {
+        console.log(productsData)
+        const product = productsData?.data?.find((product: ProductData) => product.id === itemId);
+        return product?.imageUrl1 || '/static/images/new_bikes_3.jpg'
+    }
 
     const columns: GridColDef[] = [
         {
@@ -33,10 +44,11 @@ export default function Cart() {
             width: 150,
             renderCell: (params) => {
                 const row = params.row as CartItemData;
+                const imgUrl = getProductImg(row.itemid);
                 return (
                     <NavLink to={`/product/${row.itemid}`}>
                         <img
-                            src='/static/images/new_bikes_3.jpg' //TODO: pull actual images
+                            src={imgUrl}
                             alt="Product"
                             style={{width: '50px', height: '50px', objectFit: 'cover'}}
                         />
@@ -56,7 +68,6 @@ export default function Cart() {
         },
         {field: 'quantity', headerName: 'Quantity', resizable: false, width: 120},
         {field: 'price', headerName: 'Unit Price', resizable: false, width: 120},
-        {field: 'discount', headerName: 'Discount', resizable: false, width: 120},
         {
             field: 'total',
             headerName: 'Total',
@@ -71,7 +82,7 @@ export default function Cart() {
         },
         {
             field: 'delete',
-            headerName: '',
+            headerName: 'Remove',
             resizable: false,
             width: 100,
             sortable: false,
@@ -84,7 +95,9 @@ export default function Cart() {
         },
     ];
 
-    function getRowId(row: { itemid: string; }) {
+    function getRowId(row: {
+        itemid: string;
+    }) {
         return row.itemid;
     }
 

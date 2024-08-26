@@ -4,7 +4,6 @@ import AcmeAppBar from "./AcmeAppBar.tsx";
 import { Box } from "@mui/material";
 import AcmeFooter from "./AcmeFooter.tsx";
 import ProductDetails from "./ProductDetails.tsx";
-import Cookies from "js-cookie";
 import { useGetUserInfo } from "./hooks/userHooks.ts";
 import Checkout from "./Checkout.tsx";
 import DeliveryMethod from "./DeliveryMethod.tsx";
@@ -41,7 +40,7 @@ function AppLayout({ children }: AppLayoutProps) {
     <Box>
       <AcmeAppBar handleLogin={handleLogin} handleLogout={handleLogout} />
       <Box>{children}</Box>
-      <AcmeFooter />
+      <AcmeFooter  handleLogin={handleLogin}/>
     </Box>
   );
 }

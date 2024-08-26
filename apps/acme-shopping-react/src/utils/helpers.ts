@@ -49,3 +49,46 @@ export default function constructOrder(
 
     return order;
 }
+
+export const createMarkup = (htmlContent: string) => {
+    return {__html: htmlContent};
+};
+
+export const parseMessageContentAndBuildLinks = (message: string) => {
+    const itemPattern = /{{([^|]+)\|([^}]+)}}/g;
+
+    const parsedMessage = message.replace(itemPattern, (match, itemName, itemId) => {
+        return `<a href="/product/${itemId}" target="_self">${itemName}</a>`;
+    });
+
+    return parsedMessage;
+};
+
+export function getCurrentProductInView() {
+    const productTitleElement = document.getElementById('product-title');
+
+    if (productTitleElement) {
+        const productTitle = productTitleElement.textContent.trim();
+        return `The customer is currently viewing the ${productTitle} product`;
+    } else {
+        return "The customer is not currently viewing a product detail page";
+    }
+}
+
+export const summarizeCart = (cartItems) => {
+    if (cartItems.length === 0) {
+        return "Nothing. The cart is empty.";
+    }
+
+    let totalPrice = 0;
+    const itemSummaries = cartItems.map(item => {
+        const itemTotal = parseFloat(item.price) * item.quantity;
+        totalPrice += itemTotal;
+        return `\n- ${item.quantity} x "${item.name}" at $${item.price} each`;
+    });
+
+    const itemList = itemSummaries.join('');
+    const totalPriceFormatted = totalPrice.toFixed(2);
+
+    return `Current Items in Cart: \n${itemList}\n\nTotal items: ${cartItems.length}\nTotal price: $${totalPriceFormatted}`;
+}

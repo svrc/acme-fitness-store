@@ -8,7 +8,11 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import XIcon from '@mui/icons-material/X';
 import InstagramIcon from '@mui/icons-material/Instagram';
 
-export default function AcmeFooter() {
+interface AcmeFooterProps {
+    handleLogin: () => void;
+}
+
+export default function AcmeFooter({handleLogin}: AcmeFooterProps) {
 
     const address = {
         name: "ACME Fitness",
@@ -30,9 +34,9 @@ export default function AcmeFooter() {
                     <Divider sx={{width: "100%"}}/>
                     <Typography>User section</Typography>
                     <Typography>
-                        <Link color='secondary' to="/" underline="none">
+                        <Button onClick={handleLogin} color='secondary' underline="none">
                             Login
-                        </Link>
+                        </Button>
                     </Typography>
                 </Stack>
                 <Stack>
@@ -50,7 +54,7 @@ export default function AcmeFooter() {
                     <TextField InputProps={{
                         endAdornment: <SendIcon/>
                     }}></TextField>
-                    <Divider sx={{width: "100%", my:"1rem"}}/>
+                    <Divider sx={{width: "100%", my: "1rem"}}/>
                     <Typography>Stay in touch</Typography>
                     <Stack direction="row" spacing={2}>
                         <FacebookIcon/>

@@ -3,13 +3,15 @@ import IconButton from '@mui/material/IconButton';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Logo from './assets/logo.png';
-import {Link, useNavigate} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import {Stack} from "@mui/material";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AssistIcon from '@mui/icons-material/TipsAndUpdates';
 import UserIcon from '@mui/icons-material/AccountCircle';
 import {useGetCart} from './hooks/cartHooks.ts';
 import {useGetUserInfo} from './hooks/userHooks';
+import {useState} from "react";
+import ChatModal from "./ChatModal.tsx";
 
 const pages = [
     {name: 'Home', navigateTo: '/'},
@@ -24,15 +26,28 @@ interface AcmeAppBarProps {
 
 export default function AcmeAppBar({handleLogin, handleLogout}: AcmeAppBarProps) {
     const navigate = useNavigate();
+    const [chatOpen, setIsChatOpen] = useState(false);
+    const {productId} = useParams<{
+        productId?: string
+    }>();
 
     const {data: userInfo, isLoading: isUserInfoLoading} = useGetUserInfo();
 
     const {data: cartData, isLoading: isCartLoading} = useGetCart(userInfo?.userId || '', userInfo);
 
+
     const itemsInCart = cartData?.cart?.reduce((total, item) => total + item.quantity, 0) || 0;
 
     const handleClick = () => {
         navigate('/cart');
+    }
+
+    const handleChatOpen = () => {
+        setIsChatOpen(true);
+    }
+
+    const handleChatClose = () => {
+        setIsChatOpen(false);
     }
 
     return (
@@ -67,11 +82,13 @@ export default function AcmeAppBar({handleLogin, handleLogout}: AcmeAppBarProps)
                             >
                                 {itemsInCart} items in Cart
                             </Button>
-                            <Button variant='outlined' color='inherit' startIcon={<AssistIcon/>}>Ask FitAssist</Button>
+                            <Button variant='outlined' color='inherit' onClick={handleChatOpen}
+                                    startIcon={<AssistIcon/>}>Ask FitAssist</Button>
                         </Stack>
                     </Stack>
                 </Container>
             </AppBar>
+            <ChatModal open={chatOpen} onClose={handleChatClose} cartData={cartData}/>
         </>
     );
 }

@@ -10,7 +10,6 @@ export const useGetCart = (userId: string, userInfo) => {
     });
 };
 
-
 export const useAddToCart = (userId: string) => {
     const queryClient = useQueryClient();
 
@@ -51,7 +50,7 @@ export const useClearCart = (userId: string) => {
             await clearCart(userId);
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['getCart', userId] });
+            queryClient.invalidateQueries({queryKey: ['getCart', userId]});
             console.log('Cart cleared and cache invalidated');
         },
         onError: (error: Error) => {
