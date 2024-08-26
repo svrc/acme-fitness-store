@@ -1,10 +1,5 @@
 import axios from 'axios';
-
-
-export interface UserInfo {
-  userId: string;
-  userName: string;
-}
+import {UserInfo} from "../types/User.ts";
 
 export const getUsernfo = async (): Promise<UserInfo | null> => {
   try {

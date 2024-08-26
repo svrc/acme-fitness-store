@@ -1,16 +1,5 @@
 import axios from 'axios';
-
-export interface ProductData {
-    id: string;
-    imageUrl1: string;
-    imageUrl2: string;
-    imageUrl3: string;
-    name: string;
-    shortDescription: string;
-    description: string;
-    price: number;
-    tags: string[];
-}
+import {ProductData} from "../types/Catalog.ts";
 
 export const getProducts = async (): Promise<ProductData[]> => {
     const response = await axios.get<ProductData[]>('/products');

@@ -2,14 +2,12 @@ import React from 'react';
 import {
     Grid,
     TextField,
-    Select,
-    MenuItem,
     Button,
     Box,
     FormControl,
     InputLabel,
 } from '@mui/material';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import StateSelect from "./StateSelect";
 
 interface AddressFormProps {
@@ -29,10 +27,10 @@ interface AddressFormProps {
     handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
-export default function AddressForm({ formData, handleChange, handleSubmit } : AddressFormProps){
+export default function AddressForm({formData, handleChange, handleSubmit}: AddressFormProps) {
     return (
         <form id="addressInfo" onSubmit={handleSubmit}>
-            <Grid container spacing={3}>
+            <Grid container spacing={1}>
                 <Grid item xs={12} sm={6}>
                     <TextField
                         id="firstname"
@@ -44,11 +42,11 @@ export default function AddressForm({ formData, handleChange, handleSubmit } : A
                         required
                         sx={{
                             '& .MuiOutlinedInput-root': {
-                                '& fieldset': { borderColor: '#ccc' },
-                                '&:hover fieldset': { borderColor: '#000' },
-                                '&.Mui-focused fieldset': { borderColor: '#000' },
+                                '& fieldset': {borderColor: '#ccc'},
+                                '&:hover fieldset': {borderColor: '#000'},
+                                '&.Mui-focused fieldset': {borderColor: '#000'},
                             },
-                            '& .MuiInputLabel-root.Mui-focused': { color: '#000' },
+                            '& .MuiInputLabel-root.Mui-focused': {color: '#000'},
                         }}
                     />
                 </Grid>
@@ -63,11 +61,11 @@ export default function AddressForm({ formData, handleChange, handleSubmit } : A
                         required
                         sx={{
                             '& .MuiOutlinedInput-root': {
-                                '& fieldset': { borderColor: '#ccc' },
-                                '&:hover fieldset': { borderColor: '#000' },
-                                '&.Mui-focused fieldset': { borderColor: '#000' },
+                                '& fieldset': {borderColor: '#ccc'},
+                                '&:hover fieldset': {borderColor: '#000'},
+                                '&.Mui-focused fieldset': {borderColor: '#000'},
                             },
-                            '& .MuiInputLabel-root.Mui-focused': { color: '#000' },
+                            '& .MuiInputLabel-root.Mui-focused': {color: '#000'},
                         }}
                     />
                 </Grid>
@@ -81,11 +79,11 @@ export default function AddressForm({ formData, handleChange, handleSubmit } : A
                         onChange={handleChange}
                         sx={{
                             '& .MuiOutlinedInput-root': {
-                                '& fieldset': { borderColor: '#ccc' },
-                                '&:hover fieldset': { borderColor: '#000' },
-                                '&.Mui-focused fieldset': { borderColor: '#000' },
+                                '& fieldset': {borderColor: '#ccc'},
+                                '&:hover fieldset': {borderColor: '#000'},
+                                '&.Mui-focused fieldset': {borderColor: '#000'},
                             },
-                            '& .MuiInputLabel-root.Mui-focused': { color: '#000' },
+                            '& .MuiInputLabel-root.Mui-focused': {color: '#000'},
                         }}
                     />
                 </Grid>
@@ -100,11 +98,11 @@ export default function AddressForm({ formData, handleChange, handleSubmit } : A
                         required
                         sx={{
                             '& .MuiOutlinedInput-root': {
-                                '& fieldset': { borderColor: '#ccc' },
-                                '&:hover fieldset': { borderColor: '#000' },
-                                '&.Mui-focused fieldset': { borderColor: '#000' },
+                                '& fieldset': {borderColor: '#ccc'},
+                                '&:hover fieldset': {borderColor: '#000'},
+                                '&.Mui-focused fieldset': {borderColor: '#000'},
                             },
-                            '& .MuiInputLabel-root.Mui-focused': { color: '#000' },
+                            '& .MuiInputLabel-root.Mui-focused': {color: '#000'},
                         }}
                     />
                 </Grid>
@@ -119,11 +117,11 @@ export default function AddressForm({ formData, handleChange, handleSubmit } : A
                         required
                         sx={{
                             '& .MuiOutlinedInput-root': {
-                                '& fieldset': { borderColor: '#ccc' },
-                                '&:hover fieldset': { borderColor: '#000' },
-                                '&.Mui-focused fieldset': { borderColor: '#000' },
+                                '& fieldset': {borderColor: '#ccc'},
+                                '&:hover fieldset': {borderColor: '#000'},
+                                '&.Mui-focused fieldset': {borderColor: '#000'},
                             },
-                            '& .MuiInputLabel-root.Mui-focused': { color: '#000' },
+                            '& .MuiInputLabel-root.Mui-focused': {color: '#000'},
                         }}
                     />
                 </Grid>
@@ -138,20 +136,20 @@ export default function AddressForm({ formData, handleChange, handleSubmit } : A
                         required
                         sx={{
                             '& .MuiOutlinedInput-root': {
-                                '& fieldset': { borderColor: '#ccc' },
-                                '&:hover fieldset': { borderColor: '#000' },
-                                '&.Mui-focused fieldset': { borderColor: '#000' },
+                                '& fieldset': {borderColor: '#ccc'},
+                                '&:hover fieldset': {borderColor: '#000'},
+                                '&.Mui-focused fieldset': {borderColor: '#000'},
                             },
-                            '& .MuiInputLabel-root.Mui-focused': { color: '#000' },
+                            '& .MuiInputLabel-root.Mui-focused': {color: '#000'},
                         }}
                     />
                 </Grid>
                 <Grid item xs={12} sm={3}>
                     <FormControl fullWidth required>
-                        <InputLabel id="state-label" sx={{ color: 'black' }}>
+                        <InputLabel id="state-label" sx={{color: 'black'}}>
                             State
                         </InputLabel>
-                        <StateSelect  onChange={handleChange}/>
+                        <StateSelect value={'CA'} onChange={handleChange}/>
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -164,11 +162,11 @@ export default function AddressForm({ formData, handleChange, handleSubmit } : A
                         onChange={handleChange}
                         sx={{
                             '& .MuiOutlinedInput-root': {
-                                '& fieldset': { borderColor: '#ccc' },
-                                '&:hover fieldset': { borderColor: '#000' },
-                                '&.Mui-focused fieldset': { borderColor: '#000' },
+                                '& fieldset': {borderColor: '#ccc'},
+                                '&:hover fieldset': {borderColor: '#000'},
+                                '&.Mui-focused fieldset': {borderColor: '#000'},
                             },
-                            '& .MuiInputLabel-root.Mui-focused': { color: '#000' },
+                            '& .MuiInputLabel-root.Mui-focused': {color: '#000'},
                         }}
                     />
                 </Grid>
@@ -183,22 +181,28 @@ export default function AddressForm({ formData, handleChange, handleSubmit } : A
                         required
                         sx={{
                             '& .MuiOutlinedInput-root': {
-                                '& fieldset': { borderColor: '#ccc' },
-                                '&:hover fieldset': { borderColor: '#000' },
-                                '&.Mui-focused fieldset': { borderColor: '#000' },
+                                '& fieldset': {borderColor: '#ccc'},
+                                '&:hover fieldset': {borderColor: '#000'},
+                                '&.Mui-focused fieldset': {borderColor: '#000'},
                             },
-                            '& .MuiInputLabel-root.Mui-focused': { color: '#000' },
+                            '& .MuiInputLabel-root.Mui-focused': {color: '#000'},
                         }}
                     />
                 </Grid>
             </Grid>
             <Box mt={3} display="flex" justifyContent="space-between">
-                <Button component={Link} to="/cart" variant="outlined">
-                    Back to Cart
-                </Button>
-                <Button type="submit" variant="contained" color="primary">
-                    Continue to Delivery Method
-                </Button>
+                <Button
+                    variant='outlined'
+                    color='inherit'
+                    component={Link}
+                    to="/cart"
+                > Back to Cart</Button>
+                <Button
+                    data-cy="delivery-button"
+                    type="submit"
+                    variant='outlined'
+                    color='inherit'
+                >Continue to Delivery Method</Button>
             </Box>
         </form>
     );

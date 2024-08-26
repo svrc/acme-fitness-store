@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { UserInfo, getUsernfo } from "../api/userClient";
+import { getUsernfo } from "../api/userClient";
+import {UserInfo} from "../types/User.ts";
 
 export const useGetUserInfo = () => {
   return useQuery<UserInfo | null, Error>({

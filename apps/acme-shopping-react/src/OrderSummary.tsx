@@ -1,12 +1,18 @@
 import React from 'react';
-import { useGetCart } from './api/cartClient'; // Assuming you have a custom hook for fetching the cart data
+import {useGetCart} from './hooks/cartHooks.ts';
+import {Box, Grid, Table, TableBody, TableCell, TableContainer, TableRow, Typography} from "@mui/material";
+import {UserInfo} from "./api/userClient.ts";
 
 interface OrderSummaryProps {
-    userId: string;
+    userInfo?: UserInfo;
 }
 
-export default function OrderSummary({ userId }: OrderSummaryProps){
-    const { data: cartData, isLoading, error } = useGetCart(userId);
+export default function OrderSummary({ userInfo }: OrderSummaryProps) {
+    if (!userInfo) {
+        return <div>Loading...</div>;
+    }
+
+    const { data: cartData, isLoading, error } = useGetCart(userInfo.userId, userInfo);
 
     if (isLoading) {
         return <div>Loading cart...</div>;
@@ -17,38 +23,38 @@ export default function OrderSummary({ userId }: OrderSummaryProps){
     }
 
     const cartItems = cartData?.cart ?? [];
-    const total = cartItems.reduce((acc, curr) => acc + (curr.quantity * parseFloat(curr.price)), 0);
+    const cartTotal = cartItems.reduce((acc, curr) => acc + (curr.quantity * parseFloat(curr.price)), 0);
 
     return (
-        <div className="col-lg-3">
-            <div id="order-summary" className="box">
+        <Grid mt={5} item xs={12} lg={3}>
+            <Box className="box">
                 <div className="box-header">
-                    <h3>Order summary</h3>
+                    <Typography variant="h6">Order summary</Typography>
                 </div>
-                <p className="text-muted">Shipping and additional costs may vary</p>
-                <div className="table-responsive">
-                    <table className="table">
-                        <tbody>
-                        <tr>
-                            <td>Order subtotal</td>
-                            <th id="orderSubtotal">${total.toFixed(2)}</th>
-                        </tr>
-                        <tr>
-                            <td>Shipping and handling</td>
-                            <th>Free</th>
-                        </tr>
-                        <tr>
-                            <td>Tax</td>
-                            <th>$0.00</th>
-                        </tr>
-                        <tr className="total">
-                            <td>Total</td>
-                            <th id="orderTotal">${total.toFixed(2)}</th>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+                <Typography className="text-muted">Shipping and additional costs may vary</Typography>
+                <TableContainer>
+                    <Table>
+                        <TableBody>
+                            <TableRow>
+                                <TableCell>Order subtotal</TableCell>
+                                <TableCell>{cartTotal.toFixed(2)}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>Shipping and handling</TableCell>
+                                <TableCell>Free</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>Tax</TableCell>
+                                <TableCell>0.00</TableCell>
+                            </TableRow>
+                            <TableRow className="total">
+                                <TableCell>Total</TableCell>
+                                <TableCell>{cartTotal.toFixed(2)}</TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </Box>
+        </Grid>
     );
-};
+}

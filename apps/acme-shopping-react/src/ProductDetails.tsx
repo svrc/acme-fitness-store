@@ -1,13 +1,13 @@
 import { useParams } from "react-router-dom";
 import { useGetProduct } from "./hooks/catalogHooks";
-import { useAddToCart } from "./hooks/cartHooks";
+import { useAddToCart } from "./hooks/cartHooks.ts";
 import { Card, CardActionArea, Divider, Stack, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FavoriteIcon from '@mui/icons-material/FavoriteBorder';
 import Markdown from "marked-react";
 import { useGetUserInfo } from "./hooks/userHooks";
-import { CartItemData } from "./api/cartClient";
+import { CartItemData } from "./types/Cart.ts";
 
 export default function ProductDetails() {
     const { productId } = useParams() as { productId: string };
@@ -49,6 +49,7 @@ export default function ProductDetails() {
                         <Typography>{`USD ${product.price}`}</Typography>
                         <Stack direction='row' spacing={1}>
                             <Button
+                                data-cy="add-button"
                                 variant='outlined'
                                 color='inherit'
                                 startIcon={<ShoppingCartIcon />}

@@ -6,6 +6,11 @@ import AcmeFooter from "./AcmeFooter.tsx";
 import ProductDetails from "./ProductDetails.tsx";
 import Cookies from "js-cookie";
 import { useGetUserInfo } from "./hooks/userHooks.ts";
+import Checkout from "./Checkout.tsx";
+import DeliveryMethod from "./DeliveryMethod.tsx";
+import PaymentMethod from "./PaymentMethod.tsx";
+import OrderReview from "./OrderReview.tsx";
+import OrderConfirmation from "./OrderConfirmation.tsx";
 
 const Home = lazy(() => import('./Home.tsx'));
 const Catalog = lazy(() => import('./Catalog.tsx'));
@@ -19,21 +24,12 @@ function AppLayout({ children }: AppLayoutProps) {
   const { data: userInfo, isLoading, error } = useGetUserInfo();
 
   const handleLogin = () => {
-    if (userInfo) {
-      alert(`You are already logged in as ${userInfo.userName}`);
-    } else {
-      Cookies.set('user_id', '');
       window.location.href = '/acme-login';
-    }
   };
 
   const handleLogout = () => {
     window.location.href = '/scg-logout?redirect=/';
   };
-
-  if (isLoading) {
-    return <div>Loading user information...</div>;
-  }
 
   if (error) {
     console.error('Error loading user information:', error);
@@ -84,6 +80,26 @@ export default function AppRoutes() {
         {
           path: "cart",
           element: <Cart />
+        },
+        {
+          path: "checkout",
+          element: <Checkout />
+        },
+        {
+          path: "delivery",
+          element: <DeliveryMethod />
+        },
+        {
+          path: "payment",
+          element: <PaymentMethod />
+        },
+        {
+          path: "review",
+          element: <OrderReview />
+        },
+        {
+          path: "confirmation",
+          element: <OrderConfirmation />
         },
       ],
     },
